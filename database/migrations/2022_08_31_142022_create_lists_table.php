@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('nome');
             $table->string('categoria');
             $table->unsignedBigInteger('idCriador');
+            $table->unsignedBigInteger('qtdProduto');
+            $table->flaot('valorTotal');
             $table->timestamps();
         });
 		Schema::table('lists', function (Blueprint $table) {

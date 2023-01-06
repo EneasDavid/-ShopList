@@ -45,24 +45,66 @@
 <br>
 <br>
 <br>
-<br>
 @if (empty($suasListas->toArray()))
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
   <div class="col-md-12 centered mx-auto" style="width: max-content;">
-     <a type="submit" href="/new_list" class="btn btn-primary btn-lg">Nenhuma lista disponivel.</br>Click aqui para criar uma!</a>
+     <h1>Nenhuma lista disponivel.</h1>
   </div>
 @else
-@foreach($suasListas as $listas)
-  <div class="col-md-12 centered mx-auto" style="width: max-content;">
-     <h1>{{$listas->nome}}</h1>
-  </div>
-  @endforeach
+<div class="container">
+      <hr class="mt-3">
+      <div class="row">
+        <div class="col-12 col-md-5">
+          <form class="justify-content-center justify-content-md-start mb-3 mb-md-0">
+            <div class="input-group input-group-sm">
+              <input type="text" class="form-control" placeholder="Digite aqui o que procura">
+              <button class="btn btn-danger">
+                  Buscar
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="col-12 col-md-7">
+          <div class="d-flex flex-row-reverse justify-content-center justify-content-md-start">
+            <form ml-3 d-inline-block>
+              <select class="form-select">
+                <option value="1">Ordernar pelo nome</option>
+                <option value="2">Ordernar do Mais Novo para o Mais Antigo</option>
+                <option value="3">Ordernar do Antigo para o Mais Novo</option>
+              </select>
+            </form>
+              <div class="btn-group me-3" role="group" aria-label="First group">
+                <button type="button" class="btn btn-outline-secondary disabled">1</button>
+                <button type="button" class="btn btn-outline-secondary">2</button>
+                <button type="button" class="btn btn-outline-secondary">3</button>
+                <button type="button" class="btn btn-outline-secondary">4</button>
+              </div>
+          </div>
+        </div>
+      </div>
+      <hr class="mt-3">
+      <div class="row">
+      @foreach($suasListas as $listas)
+        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+          <div class="card text-center bg-light">
+            <img src="" class="card-img-top"><!--img da lista-->
+            <div class="card-header">
+              R$ {{$listas->valorTotal}}<!--(preço total da lista)-->
+            </div>
+            <div class="card-body">
+              <h5 class="card-title text-dark"><strong>{{$listas->nome}}</strong><!--Nome da Lista--></h5>
+              <p class="card-text truncate-3l">{{$listas->categoria}}</p>
+            </div>
+            <div class="card-footer">
+              <form class="d-block">
+                <a href='/list/{{$listas->id}}'class="btn btn-danger">Ver Lista</a>
+              </form>
+              <small class="text-success">{{$listas->qtdProduto}} produtos <!--Quantidade de produtos na lista--></small>
+            </div>
+          </div>
+        </div>
+          @endforeach
+        </div>
+    </div> 
 @endif
+
 @endsection
