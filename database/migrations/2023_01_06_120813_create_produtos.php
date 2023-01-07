@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('produtos', function (Blueprint $table) {
             $table->id();
             $table->string('nomeProduto');
-            $table->flaot('valorProduto');
+            $table->decimal('valorProduto');
         });
     }
 

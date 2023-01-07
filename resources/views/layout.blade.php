@@ -37,6 +37,7 @@ ul {
     padding: 3rem 2rem;
     height: 0rem;
     min-height: 12vh;
+    position: sticky;
 }
 .navbar .navbar-brand a {
     padding: 1rem 0;
@@ -163,8 +164,6 @@ h6 span{
 .checkbox:checked + label:before {
   transform: translateX(44px) rotate(-270deg);
 }
-
-
 .card-3d-wrap {
   position: relative;
   width: 440px;
@@ -352,7 +351,13 @@ h6 span{
 
 
 
-
+p.truncate-3l{
+  display:-webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .logo {
 	position: absolute;
 	top: 30px;
