@@ -36,6 +36,7 @@ class listsController extends Controller
         $novaLista->idCriador = auth()->user()->id;
         $novaLista->qtdProduto = 0;
         $novaLista->valorTotal = 0;
+        $novaLista->limiteLista = $request->limiteLista;
         $novaLista->save();
         return redirect('/index');
     }

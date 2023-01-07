@@ -33,13 +33,17 @@
 											<form action="{{route('criarLista')}}" method="POST">
 												@csrf
 											<div class="form-group">
-												<input type="text" name="nome" class="form-style" placeholder="Nome" id="logname" autocomplete="off">
+												<input type="text" name="nome" class="form-style" placeholder="Nome*" id="logname" autocomplete="off">
 												<i class="input-icon uil uil-user"></i>
 											</div>
                                             <div class="form-group mt-2">
-												<input type="text" name="categoria" class="form-style" placeholder="Categoria" id="logname" autocomplete="off">
+												<input type="text" name="categoria" class="form-style" placeholder="Categoria*" id="logname" autocomplete="off">
 												<i class="input-icon uil uil-user"></i>
-											</div>	
+											</div>
+											<div class="form-group mt-2">
+												<input type="text" name="limiteLista" class="form-style" placeholder="Limite da lista" id="logname" autocomplete="off" title="Limite da lista é opcional">
+												<i class="input-icon uil uil-user"></i>
+											</div>		
 											<button type="submit" class="btn mt-4">CRIAR LISTA</button>
 				      					</div>
 			      					</div>

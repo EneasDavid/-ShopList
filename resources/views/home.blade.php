@@ -41,10 +41,7 @@
   </div>
 </nav>       
 </header>
-<br>
-<br>
-<br>
-<br>
+
 @if (empty($suasListas->toArray()))
   <div class="col-md-12 centered mx-auto" style="width: max-content;">
      <h1>Nenhuma lista disponivel.</h1>
@@ -93,6 +90,7 @@
             <div class="card-body">
               <h5 class="card-title text-dark"><strong>{{$listas->nome}}</strong><!--Nome da Lista--></h5>
               <p class="card-text truncate-3l">{{$listas->categoria}}</p>
+              <p class="card-text truncate-3l">{{$listas->limiteLista}}</p>
             </div>
             <div class="card-footer">
               <form class="d-block">

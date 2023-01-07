@@ -37,6 +37,7 @@ ul {
     padding: 3rem 2rem;
     height: 0rem;
     min-height: 12vh;
+    position: sticky;
 }
 .navbar .navbar-brand a {
     padding: 1rem 0;

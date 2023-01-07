@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('categoria');
             $table->unsignedBigInteger('idCriador');
             $table->unsignedBigInteger('qtdProduto');
-            $table->flaot('valorTotal');
+            $table->decimal('valorTotal');
+            $table->decimal('limiteLista')->nullable();
             $table->timestamps();
         });
 		Schema::table('lists', function (Blueprint $table) {
