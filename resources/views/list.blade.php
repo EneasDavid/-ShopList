@@ -44,7 +44,6 @@
 <main class="fix-fill">
   <div class="container">
   </br>
-<<<<<<< HEAD
   <div style="display: inline-flex;flex-direction: row;justify-content: space-between;align-items: baseline;width: inherit;">
     <h1>{{$lista->nome}}</h1>
     <div style="display: inline-flex;flex-direction: row;justify-content: space-around;align-items: baseline;">
@@ -66,10 +65,6 @@
     </div>
     <hr>
     <h1>{{$lista->categoria}}</h1>
-=======
-    <h1>{{$lista->nome}}</h1>
-    <hr>
->>>>>>> c49855f559a74ce8e88479f20539733bf58032bf
     <ul class="list-group mb-3">
       <li class="list-group-item py-3">
         <div class="row g-3">
