@@ -34,7 +34,6 @@ class listsController extends Controller
         $novaLista->nome = $request->nome;
         $novaLista->categoria = $request->categoria;
         $novaLista->idCriador = auth()->user()->id;
-        $novaLista->qtdProduto = 0;
         $novaLista->valorTotal = 0;
         $novaLista->limiteLista = $request->limiteLista;
         $novaLista->save();
@@ -42,7 +41,8 @@ class listsController extends Controller
     }
     public function Lista($id)
     {
-        $lista=lists::findOrFail($id);
+        $lista=Lists::findOrFail($id);
         return view('list',["lista"=>$lista]);
     }
+    
 }

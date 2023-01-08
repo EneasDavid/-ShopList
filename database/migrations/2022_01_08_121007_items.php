@@ -13,20 +13,21 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('produtos', function (Blueprint $table) {
+        Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('nomeProduto');
             $table->decimal('valorProduto');
+            $table->unsignedBigInteger('quantidade');
         });
     }
 
-    /**
+     /**
      * Reverse the migrations.
      *
      * @return void
      */
     public function down()
     {
-        Schema::dropIfExists('produtos');
+        Schema::dropIfExists('items');
     }
 };

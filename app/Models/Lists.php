@@ -13,9 +13,10 @@ class Lists extends Model
      *
      * @var array<int, string>
      */
+    protected $casts = ['items'=>'array'];
     protected $fillable = [
         'nome',
-        'cstegoria',
-        'itens',
+        'categoria',
+        'items',
     ];
 }
