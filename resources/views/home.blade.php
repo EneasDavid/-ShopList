@@ -90,15 +90,11 @@
             <div class="card-body">
               <h5 class="card-title text-dark"><strong>{{$listas->nome}}</strong><!--Nome da Lista--></h5>
               <p class="card-text truncate-3l">{{$listas->categoria}}</p>
-<<<<<<< HEAD
               @if(empty($listas->limiteLista))
                 <p class="card-text truncate-3l"><strong>Limite:</strong> não definido</p>
               @else
                 <p class="card-text truncate-3l"><strong>Limite:</strong> R$ {{$listas->limiteLista}}</p>
               @endif
-=======
-              <p class="card-text truncate-3l">{{$listas->limiteLista}}</p>
->>>>>>> 91282ac123f1ada8b6be30a23ee0af334dfde872
             </div>
             <div class="card-footer">
               <form class="d-block">

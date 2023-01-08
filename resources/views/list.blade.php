@@ -45,4 +45,12 @@
 <br>
 <br>
 <h1>{{$lista->nome}}</h1>
+<h1>{{$lista->categoria}}</h1>
+@if(!isset($lista->limiteLista))
+  <h1>R$ {{$lista->valorTotal}}</h1>
+@else
+  <h1 title="Valor total dos produtos">R$ {{$lista->valorTotal}}</h1>
+  <input type="range" id="limite" name="limite" min="0" max="{{$lista->limiteLista}}" value="{{$lista->valorTotal}}" disabled>
+  <h1 title="Limite previsto">R$ {{$lista->limiteLista}}</h1>
+@endif
 @endsection
