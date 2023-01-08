@@ -348,9 +348,22 @@ h6 span{
   color: #ffeba7;
   box-shadow: 0 8px 24px 0 rgba(16,39,112,.2);
 }
+.btn-a{
+  background-color: #102770;
+  color: #ffeba7;
+}
+.text-a{
+  color: #102770;
+}
 
 
-
+input[type=range] {
+    -webkit-appearance: none;
+    height: 0.5em;
+    left: 4em;
+    border-radius: 5px;
+    outline: none;
+}
 p.truncate-3l{
   display:-webkit-box;
   -webkit-line-clamp: 3;

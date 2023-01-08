@@ -34,6 +34,7 @@ Route::get('/new_list', [listsController::class, 'criarLista'])->middleware('aut
 Route::POST('/creat_list', [listsController::class, 'criarListaForms'])->middleware('auth')->name('criarLista');
 Route::get('/list/{id}', [listsController::class, 'Lista'])->middleware('auth');
 
+
 Route::get('/report', function () {
     return view('report');
 });

@@ -84,17 +84,25 @@
         <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
           <div class="card text-center bg-light">
             <img src="" class="card-img-top"><!--img da lista-->
-            <div class="card-header">
-              R$ {{$listas->valorTotal}}<!--(preço total da lista)-->
+            <div class="card-header" style="display: flex;flex-direction: row;align-items: center;justify-content: space-around;">
+              @if(!isset($listas->limiteLista))
+                <p style="color:#54a666">R$ {{$listas->valorTotal}}</p>
+                <input style="background-color: #54a666;" type="range" id="limite" name="limite" min="0" max="{{$listas->valorTotal}}" value="{{$listas->valorTotal}}" disabled>
+              @else
+                @if($listas->valorTotal<=$listas->limiteLista)
+                  <p title="Valor total dos produtos" style="color:#54a666">R$ {{$listas->valorTotal}}</p>
+                  <input style="background-color: #54a666;" type="range" id="limite" name="limite" min="0" max="{{$listas->limiteLista}}" value="{{$listas->valorTotal}}" disabled>
+                  <p title="Limite previsto" style="color:#54a666">R$ {{$listas->limiteLista}}</p>
+                @else
+                  <p title="Valor total dos produtos" style="color:#e6d53a">R$ {{$listas->valorTotal}}</p>
+                  <input style="background-color: #e6d53a;" type="range" id="limite" name="limite" min="0" max="{{$listas->limiteLista}}" value="{{$listas->valorTotal}}" disabled>
+                  <p style="color:#e6d53a" title="Limite previsto">R$ {{$listas->limiteLista}}</p>
+                @endif
+              @endif
             </div>
             <div class="card-body">
               <h5 class="card-title text-dark"><strong>{{$listas->nome}}</strong><!--Nome da Lista--></h5>
               <p class="card-text truncate-3l">{{$listas->categoria}}</p>
-              @if(empty($listas->limiteLista))
-                <p class="card-text truncate-3l"><strong>Limite:</strong> não definido</p>
-              @else
-                <p class="card-text truncate-3l"><strong>Limite:</strong> R$ {{$listas->limiteLista}}</p>
-              @endif
             </div>
             <div class="card-footer">
               <form class="d-block">
