@@ -35,9 +35,11 @@
           </ul>
         </li>
       </ul>
-      <ul class="navbar-nav ms-auto">
-      <button type="button" class="btn" data-target="#modalExemplo" data-salvar onclick="chamaPopUp()">Adicionar Produto</button>
-      </ul>
+      @if($lista->finaizada=0)
+        <ul class="navbar-nav ms-auto">
+          <button type="button" class="btn" data-target="#modalExemplo" data-salvar onclick="chamaPopUp()">Adicionar Produto</button>
+        </ul>
+      @endif
     </div>
   </div>
 </nav>       
@@ -129,12 +131,17 @@
           <h4 class="text-dark mb-3">
              Valor Total: R$ {{$lista->valorTotal}}
           </h4>
-            <a href="" class="btn btn-outline-success btn-lg">
+          @if($lista->finaizada=0)
+
+            <a href="/index" class="btn btn-outline-success btn-lg">
               Continuar Depois                           
             </a>
-            <a href="" class="btn btn-danger btn-lg ms-2 mt-xs-3">
+            <a href="/finalizarLista?id={{$lista->id}}" class="btn btn-danger btn-lg ms-2 mt-xs-3">
               Terminar Compra
             </a>
+            @else
+            <h4>Essa lista já foi fianlizada</h4>
+            @endif
         </div>
       </li>
     </ul>

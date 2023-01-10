@@ -18,5 +18,6 @@ class Lists extends Model
         'categoria',
         'valorTotal',
         'quantidadeItem',
+        'finaizada',
     ];
 }

@@ -88,7 +88,7 @@ class Controller extends BaseController
         public function index()
         {
             $usuario=auth()->user();
-            $suasListas=Lists::where('idCriador',$usuario->id)->get();
+            $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[1])->get();
             return view('home',['suasListas'=>$suasListas]);
         }
 }

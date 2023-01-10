@@ -37,6 +37,7 @@ class listsController extends Controller
         $novaLista->idCriador = auth()->user()->id;
         $novaLista->valorTotal = 0;
         $novaLista->quantidadeItem = 0;
+        $novaLista->finaizada = 0;
         $novaLista->limiteLista = $request->limiteLista;
         $novaLista->save();
         return redirect('/index');
@@ -47,10 +48,8 @@ class listsController extends Controller
         $items=items::where('listaPertence',$idLista)->get();
         return view('list',["lista"=>$lista,"items"=>$items]);
     }
-    
     public function criarItemsForms(Request $request)
     {
-
         $novoItem = new items;
         $novoItem->nomeProduto = $request->nome;
         $novoItem->preco = $request->preco;
@@ -66,5 +65,20 @@ class listsController extends Controller
             'valorTotal'=>$valor,
             'quantidadeItem'=>$novaQuantidade,
         ]);
-        return redirect('/list/'.$request->idLista.'');    }
+        return redirect('/list/'.$request->idLista.'');
+    }
+    public function finalizarLista()
+    {
+        Lists::findOrFail($_GET['id'])->update([
+            'finaizada'=>1,
+        ]);
+        return redirect('/index');
+    }
+    public function listasFinalizadas()
+    {
+        $usuario=auth()->user();
+        $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[0])->get();
+        return view('historic',['suasListas'=>$suasListas]);
+    }
+
 }
