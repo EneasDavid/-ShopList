@@ -35,7 +35,7 @@
           </ul>
         </li>
       </ul>
-      @if($lista->finaizada=0)
+      @if($lista->finaizada==0)
         <ul class="navbar-nav ms-auto">
           <button type="button" class="btn" data-target="#modalExemplo" data-salvar onclick="chamaPopUp()">Adicionar Produto</button>
         </ul>
@@ -131,8 +131,7 @@
           <h4 class="text-dark mb-3">
              Valor Total: R$ {{$lista->valorTotal}}
           </h4>
-          @if($lista->finaizada=0)
-
+          @if($lista->finaizada==0)
             <a href="/index" class="btn btn-outline-success btn-lg">
               Continuar Depois                           
             </a>
