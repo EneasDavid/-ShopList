@@ -1,0 +1,13 @@
+
+.aparecer {
+    display: flex;
+}
+.pagina {
+    border-radius: 0 !important;
+    border: none;
+    background-color: #0000008a;
+}
+.input{
+  margin-top: 14%;
+}
+  

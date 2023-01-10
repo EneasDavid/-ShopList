@@ -108,8 +108,8 @@
               <form class="d-block">
                 <a href='/list/{{$listas->id}}'class="btn btn-danger">Ver Lista</a>
               </form>
-              @if(isset($listas->items))
-                <small class="text-success">@php echo count($listas->items,COUNT_RECURSIVE) @endphp produtos <!--Quantidade de produtos na lista--></small>
+              @if(isset($listas->quantidadeItem))
+                <small class="text-success">{{$listas->quantidadeItem}} <!--Quantidade de produtos na lista--></small>
               @else
                 <small class="text-success">Não há produtos cadastrados <!--Quantidade de produtos na lista--></small>
               @endif

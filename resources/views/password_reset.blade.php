@@ -28,7 +28,7 @@
 											</div>
 											@endif
 											<h4 class="mb-4 pb-3">ESQUECEU SUA SENHA DE ACESSO?</h4>
-											<form action="{{route('recSenhaToEmail')}}" method="POST">
+											<form action="{{route('password.email')}}" method="POST">
 												@csrf
 												<div class="form-group">	
 													<input type="email" name="email" class="form-style" placeholder="Informe seu email" id="logemail" autocomplete="off">

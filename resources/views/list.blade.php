@@ -4,6 +4,7 @@
 @endsection
 
 @section('main')
+<link href="/style.css" rel="stylesheet">
 <header class="header">
 <nav class="navbar navbar-expand-lg header-nav fixed-top">
   <div class="container-fluid">
@@ -35,13 +36,33 @@
         </li>
       </ul>
       <ul class="navbar-nav ms-auto">
-      <a href="new_list" class="btn">Adicionar Produto</a>
+      <button type="button" class="btn" data-target="#modalExemplo" data-salvar onclick="chamaPopUp()">Adicionar Produto</button>
       </ul>
     </div>
   </div>
 </nav>       
 </header>
 <main class="fix-fill">
+<div class="modal pagina" id="modalExemplo" tabindex="-1" role="dialog" style="margin: 0!important;" aria-labelledby="exampleModalLabel" aria-hidden="true" popUp-cadastrar-tag>
+  <div class="modal-dialog input" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <form class="container" action="{{route('dicionarItem')}}" method="POST">
+          @csrf 
+          <input type="hidden" name="idLista" value="{{$lista->id}}" >
+          <input type="text" placeholder="nome do Produto" name="nome" class="input-home" >
+          <input type="text" placeholder="preço do produto" name="preco" class="input-home">
+          <input type="text" placeholder="quantidade do produto" name="quantidade" class="input-home">
+          <input type="text" placeholder="descrição do produto" name="descricao" class="input-home">
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="removerPopUp()">Cancelar</button>
+            <button class="btn" type="submit">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
   <div class="container">
   </br>
   <div style="display: inline-flex;flex-direction: row;justify-content: space-between;align-items: baseline;width: inherit;">
@@ -65,16 +86,18 @@
     </div>
     <hr>
     <h1>{{$lista->categoria}}</h1>
+    @if(count($items)>0)
     <ul class="list-group mb-3">
+      @foreach($items as $item)
       <li class="list-group-item py-3">
         <div class="row g-3">
           <div class="col-4 col-md-3 col-lg-2">
          
           </div>
           <div class="col-8 col-md-9 col-lg-7 col-xl-8 text-left align-self-center">
-          <h4><b><a href="#" class="text-decoration-none text-a">Sabonete</a></b></h4>
+          <h4><b><a href="#" class="text-decoration-none text-a">{{$item->nomeProduto}}</a></b></h4>
           <h4>
-            <small>Sabanote Dove Men+Care 90G</small>
+            <small>{{$item->descricao}}</small>
           </h4>
         </div>
         <div class="col-6 offset-6 col-sm-6 offset-sm-6 col-md-4 offset-md-8 col-lg-3 offset-lg-0 col-xl-2 align-self-center mt-3">
@@ -82,7 +105,7 @@
             <button type="button" class="btn-a btn-sm">
               <span class="bi" width="16" height="16" fill="currentColor">&#x2212;</span>
             </button>
-            <input type="text" class="form-control text-center border-dark" value="4"> 
+            <input type="text" class="form-control text-center border-dark" value="{{$item->quantidade}}"> 
             <button type="button" class="btn-a btn-sm">
               <span class="bi" width="16" height="16" fill="currentColor">&#x2b;</span>
             </button>
@@ -94,17 +117,17 @@
             </button>
             </div>
             <div class="text-end mt-2">
-              <small class="text-secondary">Valor UN: R$ 3,99</small><br>
-              <span class="text-dark">Valor Item: R$ 15,96</span>
+              <small class="text-secondary">Valor UN: R$ {{$item->preco}}</small><br>
+              <span class="text-dark">Valor Item: R$ @php echo $item->preco*$item->quantidade @endphp</span>
             </div>
           </div>
         </div>
       </li>
+      @endforeach
       <li class="list-group-item py-3">
         <div class="text-end">
-        <small class="text-dark">Limite Lista: R$ 29,00</small><br>
           <h4 class="text-dark mb-3">
-             Valor Total: R$ 15,96
+             Valor Total: R$ {{$lista->valorTotal}}
           </h4>
             <a href="" class="btn btn-outline-success btn-lg">
               Continuar Depois                           
@@ -115,6 +138,11 @@
         </div>
       </li>
     </ul>
+    @endif
   </div>
 </main>  
+<script src="/cadastroItem.js"></script>
+<script src="/jquery.js"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="/script.js"></script>
 @endsection

@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('nome');
             $table->string('categoria');
             $table->unsignedBigInteger('idCriador');
+            $table->unsignedBigInteger('quantidadeItem')->nullable();
             $table->decimal('valorTotal');
             $table->decimal('limiteLista')->nullable();
-            $table->json('itemsLista')->nullable();
             $table->timestamps();
         });
 		Schema::table('lists', function (Blueprint $table) {

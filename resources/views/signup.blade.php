@@ -45,7 +45,7 @@
 												<i class="input-icon uil uil-lock-alt"></i>
 											</div>
 											<button type="submit" class="btn mt-4">ENTRAR</button>
-                            				<p class="mb-0 mt-4 text-center"><a href="password_reset" class="link">Esqueceu a senha?</a></p>
+                            				<p class="mb-0 mt-4 text-center"><a href="/password_reset" class="link">Esqueceu a senha?</a></p>
 										</form>
 										</div>
 			      					</div>

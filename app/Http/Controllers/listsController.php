@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Lists;
+use App\Models\items;
 
 
 class listsController extends Controller
@@ -35,14 +36,35 @@ class listsController extends Controller
         $novaLista->categoria = $request->categoria;
         $novaLista->idCriador = auth()->user()->id;
         $novaLista->valorTotal = 0;
+        $novaLista->quantidadeItem = 0;
         $novaLista->limiteLista = $request->limiteLista;
         $novaLista->save();
         return redirect('/index');
     }
-    public function Lista($id)
+    public function Lista($idLista)
     {
-        $lista=Lists::findOrFail($id);
-        return view('list',["lista"=>$lista]);
+        $lista=Lists::findOrFail($idLista);
+        $items=items::where('listaPertence',$idLista)->get();
+        return view('list',["lista"=>$lista,"items"=>$items]);
     }
     
+    public function criarItemsForms(Request $request)
+    {
+
+        $novoItem = new items;
+        $novoItem->nomeProduto = $request->nome;
+        $novoItem->preco = $request->preco;
+        $novoItem->quantidade = $request->quantidade;
+        $novoItem->descricao = $request->descricao;
+        $novoItem->responsavelItem = auth()->user()->id;
+        $novoItem->listaPertence = $request->idLista;
+        $novoItem->save();
+        $listaCerta=Lists::findOrFail($novoItem->listaPertence);
+        $novaQuantidade=($listaCerta->quantidadeItem)+1;
+        $valor=($listaCerta->valorTotal)+($novoItem->quantidade*$novoItem->preco);
+        $listaCerta->update([
+            'valorTotal'=>$valor,
+            'quantidadeItem'=>$novaQuantidade,
+        ]);
+        return redirect('/list/'.$request->idLista.'');    }
 }

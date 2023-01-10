@@ -7,11 +7,14 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Lists;
+use App\Models\items;
+
 
 class Controller extends BaseController
 {
@@ -35,19 +38,6 @@ class Controller extends BaseController
             }
             $novoUsuario->email = $request->email;
             $novoUsuario->password = Hash::make($request->password);
-        /* //Upload de imagem
-                if($request->hasfile('foto') && $request->file('foto')->isValid()){
-                //Pega a imagem
-                $requestImagem=$request->foto;
-                //pega a extensão
-                $extension=$requestImagem->extension();
-                //cria o nome da imagem
-                $imagemName=md5($requestImagem->getClientOriginalName().strtotime("now")).".".$extension;
-                //move para a pasta das imagens
-                $requestImagem->move(public_path('img'),$imagemName);
-                //salva no bd
-                $novoUsuario->foto=$imagemName;
-                }*/
             $novoUsuario->save();    
             return redirect('/')->with('msg','Cadastro realizado com sucesso!');
         }
@@ -84,18 +74,15 @@ class Controller extends BaseController
         public function esqueceuSenhaFormsEmail(Request $request)
         {
             $email=$request->email;
-            $usuario=User::where('email','like', '%'.$email.'%')->first();
-            if(empty($usuario)){
-                return redirect()->back()->with('danger','Esse usuario não existe!');
-            }
-            return view('password_resetPasswprd',['entidade'=>$usuario]);
+            $status = Password::sendResetLink(
+                $request->only('email')
+            );
+            return $status === Password::RESET_LINK_SENT
+                        ? back()->with(['status' => __($status)])
+                        : back()->withErrors(['email' => __($status)]);     
         }
-        public function esqueceuSenhaForms (Request $request)
-        {
-            User::findOrFail($request->entidade)->update([
-                'password'=>Hash::make($request->password),
-            ]);  
-            return redirect('/');
+        public function esqueceuSenhaForms ($token) {
+            return view('auth.reset-password', ['token' => $token]);
         }
     //after login
         public function index()

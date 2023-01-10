@@ -33,6 +33,7 @@ Route::get('/index', [Controller::class, 'index'])->middleware('auth');
 Route::get('/new_list', [listsController::class, 'criarLista'])->middleware('auth');
 Route::POST('/creat_list', [listsController::class, 'criarListaForms'])->middleware('auth')->name('criarLista');
 Route::get('/list/{id}', [listsController::class, 'Lista'])->middleware('auth');
+Route::POST('/adicionarItem', [listsController::class, 'criarItemsForms'])->middleware('auth')->name('dicionarItem');
 
 
 Route::get('/report', function () {
