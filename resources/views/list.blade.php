@@ -103,6 +103,7 @@
           </h4>
         </div>
         <div class="col-6 offset-6 col-sm-6 offset-sm-6 col-md-4 offset-md-8 col-lg-3 offset-lg-0 col-xl-2 align-self-center mt-3">
+          @if($lista->finaizada==0)
           <div class="input-group">
           <a href="/quantidadeItem?sinal=-&id_item={{$item->id}}&id_lista={{$lista->id}}"><button type="button" class="btn-a btn-sm">
               <span class="bi" width="16" height="16" fill="currentColor">&#x2212;</span>
@@ -122,7 +123,13 @@
               </button>
             </form>
             </div>
-            <div class="text-end mt-2">
+            @else
+            <div style="flex-direction: column;">
+            <div class="input-group">
+              <h4 class="text-dark mb-3">{{$item->quantidade}}x</h4>
+            </div>
+            @endif
+            <div class="input-group" class="text-end mt-2">
               <small class="text-secondary">Valor UN: R$ {{$item->preco}}</small><br>
               <span class="text-dark">Valor Item: R$ @php echo $item->preco*$item->quantidade @endphp</span>
             </div>
