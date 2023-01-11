@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('nomeProduto');
             $table->decimal('preco');
             $table->unsignedBigInteger('quantidade');
-            $table->string('descricao');
+            $table->string('descricao')->nullable();
             $table->unsignedBigInteger('responsavelItem');
             $table->unsignedBigInteger('listaPertence');
             $table->timestamps();

@@ -39,6 +39,8 @@ Route::get('/finalizarLista', [listsController::class, 'finalizarLista'])->middl
 Route::delete('/deleteItem', [listsController::class, 'destruirItem'])->middleware('auth')->name('deleteItem');
 Route::get('/historic', [listsController::class, 'listasFinalizadas'])->middleware('auth');
 
+Route::get('/quantidadeItem', [listsController::class, 'quantidadeItem'])->middleware('auth');
+
 Route::get('/report', function () {
     return view('report');
 });

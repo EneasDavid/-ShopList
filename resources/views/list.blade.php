@@ -104,13 +104,13 @@
         </div>
         <div class="col-6 offset-6 col-sm-6 offset-sm-6 col-md-4 offset-md-8 col-lg-3 offset-lg-0 col-xl-2 align-self-center mt-3">
           <div class="input-group">
-            <button type="button" class="btn-a btn-sm">
+          <a href="/quantidadeItem?sinal=-&id_item={{$item->id}}&id_lista={{$lista->id}}"><button type="button" class="btn-a btn-sm">
               <span class="bi" width="16" height="16" fill="currentColor">&#x2212;</span>
-            </button>
+            </button></a>
             <input type="text" class="form-control text-center border-dark" value="{{$item->quantidade}}"> 
-            <button type="button" class="btn-a btn-sm">
+            <a href="/quantidadeItem?id_item={{$item->id}}&id_lista={{$lista->id}}&sinal=!"><button type="button" class="btn-a btn-sm">
               <span class="bi" width="16" height="16" fill="currentColor">&#x2b;</span>
-            </button>
+            </button></a>
             <form action="/deleteItem?id_item={{$item->id}}&id_lista={{$lista->id}}" method="post">
               @csrf
               @method('DELETE')

@@ -94,4 +94,25 @@ class listsController extends Controller
         return back()->with('msg','item excluido');
     }
 
+    public function quantidadeItem()
+    {
+        $operacao=null;
+        $item=items::findOrFail($_GET['id_item']);
+        $listaCerta=Lists::findOrFail($_GET['id_lista']);
+        if($_GET['sinal']=='!')
+        {
+            $item->update(['quantidade'=>$item->quantidade+1,]);
+            $valorFinal=($listaCerta->valorTotal+$item->preco);
+        }
+        elseif($_GET['sinal']=='-')
+        {
+            $item->update(['quantidade'=>$item->quantidade-1,]);
+            $valorFinal=($listaCerta->valorTotal-$item->preco);
+        }
+        $listaCerta->update([
+            'valorTotal'=>$valorFinal,
+         ]);
+         return back();
+    }
+
 }
