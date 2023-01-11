@@ -50,21 +50,22 @@
         <div class="col-12 col-md-5">
           <form class="justify-content-center justify-content-md-start mb-3 mb-md-0">
             <div class="input-group input-group-sm">
-              <input type="text" class="form-control" placeholder="Digite aqui o que procura">
-              <button class="btn btn-danger">
-                  Buscar
-              </button>
+              <form action="/historic" method="get">
+              <input type="text" class="form-control" name="pesquisa" placeholder="Digite aqui o que procura">
+              <button class="btn btn-danger">Buscar</button>
+              </form>
             </div>
           </form>
         </div>
         <div class="col-12 col-md-7">
           <div class="d-flex flex-row-reverse justify-content-center justify-content-md-start">
-            <form ml-3 d-inline-block>
-              <select class="form-select">
+            <form action="/historic" method="get" ml-3 d-inline-block>
+              <select name="pesquisa"class="form-select">
                 <option value="1">Ordernar pelo nome</option>
-                <option value="2">Ordernar do Mais Novo para o Mais Antigo</option>
-                <option value="3">Ordernar do Antigo para o Mais Novo</option>
+                <option value="now">Ordernar do Mais Novo para o Mais Antigo</option>
+                <option value="old">Ordernar do Antigo para o Mais Novo</option>
               </select>
+              <button class="btn btn-danger">Buscar</button>
             </form>
               <div class="btn-group me-3" role="group" aria-label="First group">
                 <button type="button" class="btn btn-outline-secondary disabled">1</button>

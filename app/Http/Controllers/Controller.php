@@ -85,10 +85,27 @@ class Controller extends BaseController
             return view('auth.reset-password', ['token' => $token]);
         }
     //after login
-        public function index()
+        public function index(Request $request)
         {
             $usuario=auth()->user();
-            $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[1])->get();
+            $busca=$request['pesquisa'];
+            if(isset($busca))
+            {
+                if($busca=='now')
+                {
+                    $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[1])->orderBy('created_at','DESC')->get();
+                }
+                elseif($busca=='old')
+                {
+                    $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[1])->orderBy('created_at','ASC')->get();    
+                }else{
+                    $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[1])->where('nome','like','%'.$busca.'%')->get();
+                }
+            }
+            else
+            {
+                $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[1])->get();
+            }
             return view('home',['suasListas'=>$suasListas]);
         }
 }

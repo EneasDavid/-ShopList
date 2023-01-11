@@ -74,11 +74,28 @@ class listsController extends Controller
         ]);
         return redirect('/index');
     }
-    public function listasFinalizadas()
+    public function listasFinalizadas(Request $request)
     {
         $usuario=auth()->user();
-        $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[0])->get();
-        return view('historic',['suasListas'=>$suasListas]);
+        $busca=$request['pesquisa'];
+        if(isset($busca))
+        {
+            if($busca=='now')
+            {
+                $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[0])->orderBy('created_at','DESC')->get();
+            }
+            elseif($busca=='old')
+            {
+                $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[0])->orderBy('created_at','ASC')->get();    
+            }else{
+                $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[0])->where('nome','like','%'.$busca.'%')->get();
+            }
+        }
+        else
+        {
+            $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[0])->get();
+        }
+               return view('historic',['suasListas'=>$suasListas]);
     }
     public function destruirItem()
     {
