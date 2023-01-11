@@ -63,12 +63,11 @@
         <div class="col-12 col-md-7">
           <div class="d-flex flex-row-reverse justify-content-center justify-content-md-start">
             <form action="/index" method="get" ml-3 d-inline-block>
-              <select name="pesquisa"class="form-select">
-                <option value="1">Ordernar pelo nome</option>
-                <option value="now">Ordernar do Mais Novo para o Mais Antigo</option>
+              <select name="pesquisa" class="form-select" onchange="this.form.submit()">
+                <option selected disabled>Ordernar por...</option>
                 <option value="old">Ordernar do Antigo para o Mais Novo</option>
+                <option value="now">Ordernar do Mais Novo para o Mais Antigo</option>
               </select>
-              <button class="btn btn-danger">Buscar</button>
             </form>
               <div class="btn-group me-3" role="group" aria-label="First group">
                 <button type="button" class="btn btn-outline-secondary disabled">1</button>
