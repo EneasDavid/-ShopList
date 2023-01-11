@@ -26,9 +26,9 @@
             Mais
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="historic">Histórico</a></li>
-            <li><a class="dropdown-item" href="settings">Configurações</a></li>
-            <li><a class="dropdown-item" href="donation">Doação</a></li>
+            <li><a class="dropdown-item" href="/historic">Histórico</a></li>
+            <li><a class="dropdown-item" href="/settings">Configurações</a></li>
+            <li><a class="dropdown-item" href="/donation">Doação</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="/logout">Sair</a></li>
           </ul>

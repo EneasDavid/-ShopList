@@ -80,5 +80,18 @@ class listsController extends Controller
         $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[0])->get();
         return view('historic',['suasListas'=>$suasListas]);
     }
+    public function destruirItem()
+    {
+        $itemRemover=items::findOrFail($_GET['id_item']);
+        $listaCerta=Lists::findOrFail($_GET['id_lista']);
+        $novaQuantidade=($listaCerta->quantidadeItem)-1;
+        $valor=($listaCerta->valorTotal)-($itemRemover->quantidade*$itemRemover->preco);
+        $listaCerta->update([
+            'valorTotal'=>$valor,
+            'quantidadeItem'=>$novaQuantidade,
+        ]);
+        $itemRemover->delete();
+        return back()->with('msg','item excluido');
+    }
 
 }

@@ -36,6 +36,7 @@ Route::get('/list/{id}', [listsController::class, 'Lista'])->middleware('auth');
 Route::POST('/adicionarItem', [listsController::class, 'criarItemsForms'])->middleware('auth')->name('dicionarItem');
 Route::get('/finalizarLista', [listsController::class, 'finalizarLista'])->middleware('auth');
 
+Route::delete('/deleteItem', [listsController::class, 'destruirItem'])->middleware('auth')->name('deleteItem');
 Route::get('/historic', [listsController::class, 'listasFinalizadas'])->middleware('auth');
 
 Route::get('/report', function () {
