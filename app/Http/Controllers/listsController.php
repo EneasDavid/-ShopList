@@ -22,7 +22,9 @@ class listsController extends Controller
     public function perfil()
     {
         $usuario=auth()->user();
-        return view('profile',['usuario'=>$usuario]);
+        $suasListasFinalizadas=count(Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[0])->get());
+        $suasListas=count(Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[1])->get());
+        return view('profile',['usuario'=>$usuario,'lAbertas'=>$suasListas,'lFinalizadas'=>$suasListasFinalizadas]);
     }
     public function criarLista()
     {

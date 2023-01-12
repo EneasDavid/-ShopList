@@ -359,8 +359,26 @@ h6 span{
 .text-a{
   color: #102770;
 }
-
-
+.container-perfil {
+  width: 80vh;
+  height: 80vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.box {
+  width: auto;
+  height: 300px;
+}
+body {
+  margin: 0px;
+}
+.fotoPerfil {
+    padding: 1.5rem;
+    border-radius: 50%; 
+    border: none;
+}
 input[type=range] {
     -webkit-appearance: none;*/
     appearance: none;

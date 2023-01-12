@@ -41,5 +41,34 @@
   </div>
 </nav>       
 </header>
-<p>Olá {{$usuario->name}}, seu pau no cú</p>
+<body>
+  <div class="row mb-4">
+      <div class="container-perfil col-md-6" style="justify-content:end!important">
+        <div class="box">
+          @if(isset($usuario->foto))
+          <div type="file" class="fotoPerfil" style="padding:0px!important">
+            <img src="/{{$usuario->foto}}" alt="" style="height: 12rem;width: 12rem;border-radius: inherit;">
+          </div>
+          @else
+          <div type="file" class="fotoPerfil" style="background: rgb(219, 221, 223);">
+            <img src="/user.png" alt="" style="height: 6.5rem; width:6.5rem;">
+          </div>
+          @endif
+        </div>
+      </div>
+      <div class="container-perfil col-md-6" style="justify-content:flex-start !important">
+        <div class="box">
+          <div style="margin-left: 5rem;" >
+            <p>Olá {{$usuario->name}}, seu pau no cú</p>
+            <p>{{$usuario->email}}</p>
+            <p>Quantidade de Listas ativas: {{$lAbertas}}</p>
+            <p>Quantidade de Listas finalizadas: {{$lFinalizadas}}</p>
+            <p>Quantidade de Listas participando: </p>
+
+          </div>
+        </div>
+      </div>
+  </div>
+</body>
+        
 @endsection
