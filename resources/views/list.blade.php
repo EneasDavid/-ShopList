@@ -17,7 +17,7 @@
     <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="profile">Perfil</a>
+          <a class="nav-link" aria-current="page" href="/dashboard">Perfil</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="report">Relatório</a>

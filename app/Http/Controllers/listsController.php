@@ -19,6 +19,11 @@ use App\Models\items;
 
 class listsController extends Controller
 {
+    public function perfil()
+    {
+        $usuario=auth()->user();
+        return view('profile',['usuario'=>$usuario]);
+    }
     public function criarLista()
     {
         return view('new_list');

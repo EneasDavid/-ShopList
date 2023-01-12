@@ -28,6 +28,7 @@ Route::get('/logout',function(){
     return redirect('/');
 })->middleware('auth')->name('logout');
 
+Route::get('/dashboard', [listsController::class, 'perfil'])->middleware('auth');
 Route::get('/index', [Controller::class, 'index'])->middleware('auth');
 
 Route::get('/new_list', [listsController::class, 'criarLista'])->middleware('auth');
