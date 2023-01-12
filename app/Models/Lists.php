@@ -18,6 +18,7 @@ class Lists extends Model
         'categoria',
         'valorTotal',
         'quantidadeItem',
+        'porcetagemLimite',
         'finaizada',
     ];
 }

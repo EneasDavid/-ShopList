@@ -21,6 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('quantidadeItem')->nullable();
             $table->decimal('valorTotal');
             $table->decimal('limiteLista')->nullable();
+            $table->decimal('porcetagemLimite');
             $table->boolean('finaizada');
             $table->timestamps();
         });

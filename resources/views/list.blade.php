@@ -70,20 +70,19 @@
   <div style="display: inline-flex;flex-direction: row;justify-content: space-between;align-items: baseline;width: inherit;">
     <h1>{{$lista->nome}}</h1>
     <div style="display: inline-flex;flex-direction: row;justify-content: space-around;align-items: baseline;">
-    @if(!isset($lista->limiteLista))
-                <p style="color:#54a666;margin-right: 1rem;">R$ {{$lista->valorTotal}}</p>
-                <input style="background-color: #54a666;" type="range" id="limite" name="limite" min="0" max="{{$lista->valorTotal}}" value="{{$lista->valorTotal}}" disabled>
-              @else
-                @if($lista->valorTotal<=$lista->limiteLista)
-                  <p title="Valor total dos produtos" style="color:#54a666;margin-right: 1rem;">R$ {{$lista->valorTotal}}</p>
-                  <input style="background-color: #54a666;" type="range" id="limite" name="limite" min="0" max="{{$lista->limiteLista}}" value="{{$lista->valorTotal}}" disabled>
-                  <p title="Limite previsto" style="color:#54a666;margin-left: 1rem;">R$ {{$lista->limiteLista}}</p>
-                @else
-                  <p title="Valor total dos produtos" style="color:#e6d53a;margin-right: 1rem;">R$ {{$lista->valorTotal}}</p>
-                  <input style="background-color: #e6d53a;" type="range" id="limite" name="limite" min="0" max="{{$lista->limiteLista}}" value="{{$lista->valorTotal}}" disabled>
-                  <p style="color:#e6d53a;margin-left: 1rem;" title="Limite previsto">R$ {{$lista->limiteLista}}</p>
-                @endif
-              @endif
+      <p style="color:#54a666;margin-right: 1rem;">R$ {{$lista->valorTotal}}</p>
+      <div class="progress mt-1 " data-height="8" style="height: 8px;">
+        @if(!isset($lista->limiteLista))
+        <input style="background-color: #54a666;width:100%;" type="range" id="limite" name="limite" min="0" max="{{$lista->valorTotal}}" value="  {{$lista->valorTotal}}" disabled>
+        @else
+        @if($lista->valorTotal<=$lista->limiteLista)
+        <input style="background-color: #54a666;width:{{$lista->porcetagemLimite}}%" type="range" id="limite" name="limite" min="0" max="{{$lista->limiteLista}}" value="{{$lista->valorTotal}}" disabled>
+        @else
+        <input style="background-color: #e6d53a;width:{{$listas->porcetagemLimite}}%" type="range" id="limite" name="limite" min="0" max="{{$lista->limiteLista}}" value="{{$lista->valorTotal}}" disabled>
+        @endif
+        @endif
+      </div>
+      <p title="Limite previsto" style="color:#54a666;margin-left: 1rem;">R$ {{$lista->limiteLista}}</p>
     </div>
     </div>
     <hr>

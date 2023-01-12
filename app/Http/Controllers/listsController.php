@@ -38,6 +38,7 @@ class listsController extends Controller
         $novaLista->valorTotal = 0;
         $novaLista->quantidadeItem = 0;
         $novaLista->finaizada = 0;
+        $novaLista->porcetagemLimite= 0;
         $novaLista->limiteLista = $request->limiteLista;
         $novaLista->save();
         return redirect('/index');
@@ -61,10 +62,22 @@ class listsController extends Controller
         $listaCerta=Lists::findOrFail($novoItem->listaPertence);
         $novaQuantidade=($listaCerta->quantidadeItem)+1;
         $valor=($listaCerta->valorTotal)+($novoItem->quantidade*$novoItem->preco);
-        $listaCerta->update([
-            'valorTotal'=>$valor,
-            'quantidadeItem'=>$novaQuantidade,
-        ]);
+        if(isset($listaCerta->limiteLista))
+        {
+            $porcentagem=($valor/$listaCerta->limiteLista)*100;
+            $listaCerta->update([
+                'valorTotal'=>$valor,
+                'porcetagemLimite'=>$porcentagem,
+                'quantidadeItem'=>$novaQuantidade,
+            ]);
+         
+        }else
+        {
+            $listaCerta->update([
+                'valorTotal'=>$valor,
+                'quantidadeItem'=>$novaQuantidade,
+            ]);
+        }
         return redirect('/list/'.$request->idLista.'');
     }
     public function finalizarLista()
@@ -103,32 +116,62 @@ class listsController extends Controller
         $listaCerta=Lists::findOrFail($_GET['id_lista']);
         $novaQuantidade=($listaCerta->quantidadeItem)-1;
         $valor=($listaCerta->valorTotal)-($itemRemover->quantidade*$itemRemover->preco);
-        $listaCerta->update([
-            'valorTotal'=>$valor,
-            'quantidadeItem'=>$novaQuantidade,
-        ]);
+        if(isset($listaCerta->limiteLista))
+        {
+            $porcentagem=($valor/$listaCerta->limiteLista)*100;
+            $listaCerta->update([
+                'valorTotal'=>$valor,
+                'porcetagemLimite'=>$porcentagem,
+                'quantidadeItem'=>$novaQuantidade,
+            ]);
+         
+        }else
+        {
+            $listaCerta->update([
+                'valorTotal'=>$valor,
+                'quantidadeItem'=>$novaQuantidade,
+            ]);
+            }
         $itemRemover->delete();
         return back()->with('msg','item excluido');
     }
 
     public function quantidadeItem()
     {
-        $operacao=null;
         $item=items::findOrFail($_GET['id_item']);
         $listaCerta=Lists::findOrFail($_GET['id_lista']);
         if($_GET['sinal']=='!')
         {
-            $item->update(['quantidade'=>$item->quantidade+1,]);
             $valorFinal=($listaCerta->valorTotal+$item->preco);
+            if($item->quantidade>1){
+                $item->update(['quantidade'=>$item->quantidade+1,]);
+            }else{
+                $item->delete();     
+            }
         }
         elseif($_GET['sinal']=='-')
         {
-            $item->update(['quantidade'=>$item->quantidade-1,]);
             $valorFinal=($listaCerta->valorTotal-$item->preco);
+            if($item->quantidade>1){
+                $item->update(['quantidade'=>$item->quantidade-1,]);
+            }else{
+                $item->delete();     
+            }
         }
-        $listaCerta->update([
-            'valorTotal'=>$valorFinal,
-         ]);
+        if(isset($listaCerta->limiteLista))
+        {
+            $porcentagem=($valorFinal/$listaCerta->limiteLista)*100;
+            $listaCerta->update([
+                'valorTotal'=>$valorFinal,
+                'porcetagemLimite'=>$porcentagem,
+             ]);
+         
+        }else
+        {
+            $listaCerta->update([
+                'valorTotal'=>$valorFinal,
+             ]);
+        }
          return back();
     }
 
