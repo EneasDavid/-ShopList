@@ -58,7 +58,7 @@
           <input type="text" placeholder="descrição do produto" name="descricao" class="input-home">
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="removerPopUp()">Cancelar</button>
-            <button class="btn" type="submit">Salvar</button>
+            <button class="btn" type="submit" onclick="myFunction(this);this.form.submit()">Salvar</button>
           </div>
         </form>
       </div>
@@ -69,20 +69,40 @@
   </br>
   <div style="display: inline-flex;flex-direction: row;justify-content: space-between;align-items: baseline;width: inherit;">
     <h1>{{$lista->nome}}</h1>
-    <div style="display: inline-flex;flex-direction: row;justify-content: space-around;align-items: baseline;">
+    <div style="display: inline-flex;flex-direction: row;justify-content: space-around;align-items: baseline;">  
+    @if(!isset($lista->limiteLista))
       <p style="color:#54a666;margin-right: 1rem;">R$ {{$lista->valorTotal}}</p>
+      @else
+      @if($lista->valorTotal<=(($lista->limiteLista/10)*9))
+      <p style="color:#b5acac;margin-right: 1rem;">R$ {{$lista->valorTotal}}</p>
+      @elseif($lista->valorTotal>=(($lista->limiteLista/10)*9) and $lista->valorTotal<=$lista->limiteLista)
+      <p style="color:#54a666;margin-right: 1rem;">R$ {{$lista->valorTotal}}</p>
+      @else
+      <p style="color:#e6d53a;margin-right: 1rem;">R$ {{$lista->valorTotal}}</p>
+      @endif
+      @endif
       <div class="progress mt-1 " data-height="8" style="height: 8px;">
         @if(!isset($lista->limiteLista))
         <input style="background-color: #54a666;width:100%;" type="range" id="limite" name="limite" min="0" max="{{$lista->valorTotal}}" value="  {{$lista->valorTotal}}" disabled>
         @else
-        @if($lista->valorTotal<=$lista->limiteLista)
-        <input style="background-color: #54a666;width:{{$lista->porcetagemLimite}}%" type="range" id="limite" name="limite" min="0" max="{{$lista->limiteLista}}" value="{{$lista->valorTotal}}" disabled>
-        @else
-        <input style="background-color: #e6d53a;width:{{$listas->porcetagemLimite}}%" type="range" id="limite" name="limite" min="0" max="{{$lista->limiteLista}}" value="{{$lista->valorTotal}}" disabled>
-        @endif
+          @if($lista->valorTotal<=(($lista->limiteLista/10)*9))
+          <input style="background-color: #b5acac;width:{{$lista->porcetagemLimite}}%" type="range" id="limite" name="limite" min="0" max="{{$lista->limiteLista}}" value="{{$lista->valorTotal}}" disabled>
+          @elseif($lista->valorTotal>=(($lista->limiteLista/10)*9) and $lista->valorTotal<=$lista->limiteLista)
+          <input style="background-color: #54a666;width:{{$lista->porcetagemLimite}}%" type="range" id="limite" name="limite" min="0" max="{{$lista->limiteLista}}" value="{{$lista->valorTotal}}" disabled>
+          @else
+          <input style="background-color: #e6d53a;width:{{$lista->porcetagemLimite}}%" type="range" id="limite" name="limite" min="0" max="{{$lista->limiteLista}}" value="{{$lista->valorTotal}}" disabled>
+          @endif
         @endif
       </div>
-      <p title="Limite previsto" style="color:#54a666;margin-left: 1rem;">R$ {{$lista->limiteLista}}</p>
+      @if(isset($lista->limiteLista))
+          @if($lista->valorTotal<=(($lista->limiteLista/10)*9))
+          <p title="Limite previsto" style="color:#b5acac;margin-left: 1rem;">R$ {{$lista->limiteLista}}</p>
+          @elseif($lista->valorTotal>=(($lista->limiteLista/10)*9) and $lista->valorTotal<=$lista->limiteLista)
+          <p title="Limite previsto" style="color:#54a666;margin-left: 1rem;">R$ {{$lista->limiteLista}}</p>
+          @else
+          <p title="Limite previsto" style="color:#e6d53a;margin-left: 1rem;">R$ {{$lista->limiteLista}}</p>
+          @endif
+        @endif
     </div>
     </div>
     <hr>
@@ -91,10 +111,7 @@
     <ul class="list-group mb-3">
       @foreach($items as $item)
       <li class="list-group-item py-3">
-        <div class="row g-3">
-          <div class="col-4 col-md-3 col-lg-2">
-         
-          </div>
+        <div class="row g-3" style="justify-content: space-between;">
           <div class="col-8 col-md-9 col-lg-7 col-xl-8 text-left align-self-center">
           <h4><b><a href="#" class="text-decoration-none text-a">{{$item->nomeProduto}}</a></b></h4>
           <h4>
@@ -104,17 +121,17 @@
         <div class="col-6 offset-6 col-sm-6 offset-sm-6 col-md-4 offset-md-8 col-lg-3 offset-lg-0 col-xl-2 align-self-center mt-3">
           @if($lista->finaizada==0)
           <div class="input-group">
-          <a href="/quantidadeItem?sinal=-&id_item={{$item->id}}&id_lista={{$lista->id}}"><button type="button" class="btn-a btn-sm">
+          <a href="/quantidadeItem?sinal=-&id_item={{$item->id}}&id_lista={{$lista->id}}" onclick="myFunction(this);this.form.submit()"><button type="button" class="btn-a btn-sm">
               <span class="bi" width="16" height="16" fill="currentColor">&#x2212;</span>
             </button></a>
             <input type="text" class="form-control text-center border-dark" value="{{$item->quantidade}}"> 
-            <a href="/quantidadeItem?id_item={{$item->id}}&id_lista={{$lista->id}}&sinal=!"><button type="button" class="btn-a btn-sm">
+            <a href="/quantidadeItem?id_item={{$item->id}}&id_lista={{$lista->id}}&sinal=!" onclick="myFunction(this);this.form.submit()"><button type="button" class="btn-a btn-sm">
               <span class="bi" width="16" height="16" fill="currentColor">&#x2b;</span>
             </button></a>
             <form action="/deleteItem?id_item={{$item->id}}&id_lista={{$lista->id}}" method="post">
               @csrf
               @method('DELETE')
-              <button type="submit" class="btn-outline-danger btn-sm">
+              <button type="submit" class="btn-outline-danger btn-sm" onclick="myFunction(this);this.form.submit()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                   <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                   <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
@@ -161,4 +178,5 @@
 <script src="/jquery.js"></script>
 <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
 <script src="/script.js"></script>
+<script src="/oneClick.js"></script>
 @endsection

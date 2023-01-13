@@ -78,44 +78,46 @@
       <hr class="mt-3">
       <div class="row">
       @foreach($suasListas as $listas)
-        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-          <div class="card text-center bg-light">
-            <img src="" class="card-img-top"><!--img da lista-->
-            <div class="card-header" style="display: flex;flex-direction: row;align-items: center;justify-content: space-around;">
-              @if(!isset($listas->limiteLista))
-                <p style="color:#54a666">R$ {{$listas->valorTotal}}</p>
-                <input style="background-color: #54a666;" type="range" id="limite" name="limite" min="0" max="{{$listas->valorTotal}}" value="{{$listas->valorTotal}}" disabled>
-              @else
-                @if($listas->valorTotal<=$listas->limiteLista)
-                  <p title="Valor total dos produtos" style="color:#54a666">R$ {{$listas->valorTotal}}</p>
-                  <input style="background-color: #54a666;" type="range" id="limite" name="limite" min="0" max="{{$listas->limiteLista}}" value="{{$listas->valorTotal}}" disabled>
-                  <p title="Limite previsto" style="color:#54a666">R$ {{$listas->limiteLista}}</p>
-                @else
-                  <p title="Valor total dos produtos" style="color:#e6d53a">R$ {{$listas->valorTotal}}</p>
-                  <input style="background-color: #e6d53a;" type="range" id="limite" name="limite" min="0" max="{{$listas->limiteLista}}" value="{{$listas->valorTotal}}" disabled>
-                  <p style="color:#e6d53a" title="Limite previsto">R$ {{$listas->limiteLista}}</p>
-                @endif
-              @endif
+        <div class="col-md-4 col-xl-3 col-lg-6">
+          <div class="row ">
+            <a href='/list/{{$listas->id}}'>
+              <div class="col-xl-12 col-lg-12">
+                <div class="card l-bg-orange-dark">
+                    <div class="card-statistic-3 p-4">
+                        <div class="card-icon card-icon-large"><i class="fas fa-shopping-cart"></i></div>
+                        <div class="mb-4">
+                            <h5 class="card-title mb-0">{{$listas->nome}}</h5>
+                            <p class="card-text truncate-3l">{{$listas->categoria}}</p>
+                        </div>
+                        <div class="row align-items-center mb-2 d-flex">
+                            <div class="col-8">
+                                <h2 class="d-flex align-items-center mb-0">
+                                R$ {{$listas->valorTotal}}
+                                </h2>
+                            </div>
+                            <div class="col-4 text-right" style="height: 3rem;">
+                                <span> Limite: R$ {{$listas->limiteLista}}</span>
+                            </div>
+                        </div>
+                        <div class="progress mt-1 " data-height="8" style="height: 8px;">
+                        @if(!isset($listas->limiteLista))
+                        <input style="background-color: #54a666;width:100%;" type="range" id="limite" name="limite" min="0" max="{{$listas->valorTotal}}" value="  {{$listas->valorTotal}}" disabled>
+                        @else
+                          @if($listas->valorTotal<=(($listas->limiteLista/10)*9))
+                          <input style="background-color: #b5acac;width:{{$listas->porcetagemLimite}}%" type="range" id="limite" name="limite" min="0" max="{{$listas->limiteLista}}" value="{{$listas->valorTotal}}" disabled>
+                          @elseif($listas->valorTotal>=(($listas->limiteLista/10)*9) and $listas->valorTotal<=$listas->limiteLista)
+                          <input style="background-color: #54a666;width:{{$listas->porcetagemLimite}}%" type="range" id="limite" name="limite" min="0" max="{{$listas->limiteLista}}" value="{{$listas->valorTotal}}" disabled>
+                          @else
+                          <input style="background-color: #e6d53a;width:{{$listas->porcetagemLimite}}%" type="range" id="limite" name="limite" min="0" max="{{$listas->limiteLista}}" value="{{$listas->valorTotal}}" disabled>
+                          @endif
+                        @endif
+                        </div>
+                    </div>
+                    </div>
             </div>
-            <div class="card-body">
-              <h5 class="card-title text-dark"><strong>{{$listas->nome}}</strong><!--Nome da Lista--></h5>
-              <p class="card-text truncate-3l">{{$listas->categoria}}</p>
-            </div>
-            <div class="card-footer">
-              <form class="d-block">
-                <a href='/list/{{$listas->id}}'class="btn btn-danger">Ver Lista</a>
-              </form>
-              @if(isset($listas->quantidadeItem))
-                <small class="text-success">{{$listas->quantidadeItem}} <!--Quantidade de produtos na lista--></small>
-              @else
-                <small class="text-success">Não há produtos cadastrados <!--Quantidade de produtos na lista--></small>
-              @endif
-            </div>
+            </a>
           </div>
         </div>
-          @endforeach
-        </div>
-    </div> 
-@endif
-
+        @endforeach
+    @endif
 @endsection

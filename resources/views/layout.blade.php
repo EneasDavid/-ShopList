@@ -36,6 +36,12 @@ a:hover {
 ul {
     list-style-type: none;
 }
+#picture__input{
+  display:none;
+}
+.picture{
+  cursor:pointer;
+}
 .navbar {
     background: white;
     padding: 3rem 2rem;

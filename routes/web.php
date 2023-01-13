@@ -30,6 +30,8 @@ Route::get('/logout',function(){
 
 Route::get('/dashboard', [listsController::class, 'perfil'])->middleware('auth');
 Route::get('/index', [Controller::class, 'index'])->middleware('auth');
+Route::get('/report', [listsController::class, 'resumoFinancas'])->middleware('auth');
+Route::POST('/adicionarFotoPerfil', [listsController::class, 'adicionarFotoPerfil'])->middleware('auth')->name('adicionarFotoPerfil');
 
 Route::get('/new_list', [listsController::class, 'criarLista'])->middleware('auth');
 Route::POST('/creat_list', [listsController::class, 'criarListaForms'])->middleware('auth')->name('criarLista');
@@ -42,10 +44,6 @@ Route::get('/historic', [listsController::class, 'listasFinalizadas'])->middlewa
 
 Route::get('/quantidadeItem', [listsController::class, 'quantidadeItem'])->middleware('auth');
 
-Route::get('/report', function () {
-    return view('report');
-});
-
 Route::get('/settings', function () {
     return view('settings');
 });
@@ -54,7 +52,4 @@ Route::get('/donation', function () {
     return view('donation');
 });
 
-Route::get('/profile', function (){
-    return view('profile');
-});
 

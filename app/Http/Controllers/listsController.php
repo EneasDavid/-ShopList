@@ -26,6 +26,36 @@ class listsController extends Controller
         $suasListas=count(Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[1])->get());
         return view('profile',['usuario'=>$usuario,'lAbertas'=>$suasListas,'lFinalizadas'=>$suasListasFinalizadas]);
     }
+    public function adicionarFotoPerfil(Request $request)
+    {
+        dd('here');
+        /*$usuario=auth()->user()->id;
+        $atualizadoUsuario;
+        if($request->hasfile('foto') && $request->file('foto')->isValid()){
+            //Pega a imagem
+            $requestImagem=$request->foto;
+            //pega a extensão
+            $extension=$requestImagem->extension();
+            //cria o nome da imagem
+            $imagemName=md5($requestImagem->getClientOriginalName().strtotime("now")).".".$extension;
+            //move para a pasta das imagens
+            $requestImagem->move(public_path(),$imagemName);
+            //salva no bd
+            $atualizadoUsuario=$imagemName;
+           }
+    
+        User::findOrFail($usuario)->uddate([
+            'foto'->$atualizadoUsuario,
+        ]);
+        return back();*/
+    }
+    public function resumoFinancas()
+    {
+        $usuario=auth()->user();
+        $suasListasFinalizadas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[0])->get();
+        $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[1])->get();
+        return view('report',['usuario'=>$usuario,'lAbertas'=>$suasListas,'lFinalizadas'=>$suasListasFinalizadas]);
+    }
     public function criarLista()
     {
         return view('new_list');
@@ -140,7 +170,7 @@ class listsController extends Controller
             ]);
             }
         $itemRemover->delete();
-        return back()->with('msg','item excluido');
+        return back();
     }
 
     public function quantidadeItem()
@@ -150,11 +180,7 @@ class listsController extends Controller
         if($_GET['sinal']=='!')
         {
             $valorFinal=($listaCerta->valorTotal+$item->preco);
-            if($item->quantidade>1){
-                $item->update(['quantidade'=>$item->quantidade+1,]);
-            }else{
-                $item->delete();     
-            }
+            $item->update(['quantidade'=>$item->quantidade+1,]);
         }
         elseif($_GET['sinal']=='-')
         {
@@ -162,7 +188,25 @@ class listsController extends Controller
             if($item->quantidade>1){
                 $item->update(['quantidade'=>$item->quantidade-1,]);
             }else{
-                $item->delete();     
+                $novaQuantidade=($listaCerta->quantidadeItem)-1;
+                $valor=($listaCerta->valorTotal)-($item->quantidade*$item->preco);
+                if(isset($listaCerta->limiteLista))
+                {
+                    $porcentagem=($valor/$listaCerta->limiteLista)*100;
+                    $listaCerta->update([
+                        'valorTotal'=>$valor,
+                        'porcetagemLimite'=>$porcentagem,
+                        'quantidadeItem'=>$novaQuantidade,
+                    ]);
+                 
+                }else
+                {
+                    $listaCerta->update([
+                        'valorTotal'=>$valor,
+                        'quantidadeItem'=>$novaQuantidade,
+                    ]);
+                    }
+                $item->delete();
             }
         }
         if(isset($listaCerta->limiteLista))

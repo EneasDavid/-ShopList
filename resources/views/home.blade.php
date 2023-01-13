@@ -80,10 +80,10 @@
       <hr class="mt-3">
       <div class="row">
         @foreach($suasListas as $listas)
-        <div class="col-md-10 ">
+        <div class="col-md-4 col-xl-3 col-lg-6">
           <div class="row ">
             <a href='/list/{{$listas->id}}'>
-              <div class="col-xl-3 col-lg-6">
+              <div class="col-xl-12 col-lg-12">
                 <div class="card l-bg-orange-dark">
                     <div class="card-statistic-3 p-4">
                         <div class="card-icon card-icon-large"><i class="fas fa-shopping-cart"></i></div>
@@ -97,20 +97,22 @@
                                 R$ {{$listas->valorTotal}}
                                 </h2>
                             </div>
-                            <div class="col-4 text-right">
+                            <div class="col-4 text-right" style="height: 3rem;">
                                 <span> Limite: R$ {{$listas->limiteLista}}</span>
                             </div>
                         </div>
                         <div class="progress mt-1 " data-height="8" style="height: 8px;">
                         @if(!isset($listas->limiteLista))
                         <input style="background-color: #54a666;width:100%;" type="range" id="limite" name="limite" min="0" max="{{$listas->valorTotal}}" value="  {{$listas->valorTotal}}" disabled>
-                      @else
-                        @if($listas->valorTotal<=$listas->limiteLista)
-                        <input style="background-color: #54a666;width:{{$listas->porcetagemLimite}}%" type="range" id="limite" name="limite" min="0" max="{{$listas->limiteLista}}" value="{{$listas->valorTotal}}" disabled>
                         @else
+                          @if($listas->valorTotal<=(($listas->limiteLista/10)*9))
+                          <input style="background-color: #b5acac;width:{{$listas->porcetagemLimite}}%" type="range" id="limite" name="limite" min="0" max="{{$listas->limiteLista}}" value="{{$listas->valorTotal}}" disabled>
+                          @elseif($listas->valorTotal>=(($listas->limiteLista/10)*9) and $listas->valorTotal<=$listas->limiteLista)
+                          <input style="background-color: #54a666;width:{{$listas->porcetagemLimite}}%" type="range" id="limite" name="limite" min="0" max="{{$listas->limiteLista}}" value="{{$listas->valorTotal}}" disabled>
+                          @else
                           <input style="background-color: #e6d53a;width:{{$listas->porcetagemLimite}}%" type="range" id="limite" name="limite" min="0" max="{{$listas->limiteLista}}" value="{{$listas->valorTotal}}" disabled>
                           @endif
-                      @endif
+                        @endif
                         </div>
                     </div>
                     </div>
