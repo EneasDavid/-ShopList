@@ -28,22 +28,20 @@
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="historic">Histórico</a></li>
             <li><a class="dropdown-item" href="settings">Configurações</a></li>
-            <li><a class="dropdown-item" href="donation">Doação</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="/logout">Sair</a></li>
           </ul>
         </li>
       </ul>
-      <ul class="navbar-nav ms-auto">
-      <a href="new_list" class="btn">Nova Lista</a>
-      </ul>
+     
     </div>
   </div>
 </nav>       
 </header>
 <body>
   <div class="row mb-4">
-      <div class="container-perfil col-md-6" style="justify-content:end!important">
+      <div class="container-perfil col-md-6 " style="justify-content:end!important">
+      
         <div class="box">
         <form method="POST" action="{{route('adicionarFotoPerfil')}}" enctype="multipart/form-data">
           @if(isset($usuario->foto))
@@ -60,14 +58,15 @@
         </div>
       </div>
       <div class="container-perfil col-md-6" style="justify-content:flex-start !important">
-        <div class="box">
-          <div style="margin-left: 5rem;" >
-            <p>Olá {{$usuario->name}}, seu pau no cú</p>
-            <p>{{$usuario->email}}</p>
-            <p>Quantidade de Listas ativas: {{$lAbertas}}</p>
-            <p>Quantidade de Listas finalizadas: {{$lFinalizadas}}</p>
-            <p>Quantidade de Listas participando: </p>
-
+        <div class="card">
+        <div class="card-body">
+          <div style="margin-left: 5rem; margin-right: 5rem;" >
+            <h4 style="color: #1f2029;">Olá {{$usuario->name}}</h4>
+            <p style="color: #1f2029;">Email: {{$usuario->email}}</p>
+            <p style="color: #1f2029;">Quantidade de Listas ativas: {{$lAbertas}}</p>
+            <p style="color: #1f2029;">Quantidade de Listas finalizadas: {{$lFinalizadas}}</p>
+            <p style="color: #1f2029;">Quantidade de Listas participando: </p>
+            </div>
           </div>
         </div>
       </div>
