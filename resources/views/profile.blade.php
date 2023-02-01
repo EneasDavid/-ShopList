@@ -45,15 +45,18 @@
   <div class="row mb-4">
       <div class="container-perfil col-md-6" style="justify-content:end!important">
         <div class="box">
+        <form method="POST" action="{{route('adicionarFotoPerfil')}}" enctype="multipart/form-data">
           @if(isset($usuario->foto))
-          <div type="file" class="fotoPerfil" style="padding:0px!important">
+          <label tabIndex="0" for="picture__input" type="file" class="fotoPerfil picture" style="padding:0px!important" onchange="this.form.submit()">
             <img src="/{{$usuario->foto}}" alt="" style="height: 12rem;width: 12rem;border-radius: inherit;">
-          </div>
+          </label>
           @else
-          <div type="file" class="fotoPerfil" style="background: rgb(219, 221, 223);">
-            <img src="/user.png" alt="" style="height: 6.5rem; width:6.5rem;">
-          </div>
+          <label tabIndex="0" for="picture__input" type="file" class="fotoPerfil picture" style="background: rgb(219, 221, 223);" onchange="this.form.submit()">
+            <img src="/user.png" style="height: 6.5rem; width:6.5rem;"></img>
+          </label>
           @endif
+          <input type="file" id="picture__input" name="foto" >
+        </form>
         </div>
       </div>
       <div class="container-perfil col-md-6" style="justify-content:flex-start !important">
@@ -70,5 +73,4 @@
       </div>
   </div>
 </body>
-        
 @endsection
