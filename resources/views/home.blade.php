@@ -42,9 +42,13 @@
 </nav>       
 </header>
 @if (empty($suasListas->toArray()))
-  <div class="col-md-12 centered mx-auto" style="width: max-content;">
+<body>
+<div class="col-md-12 centered mx-auto container-perfil" style="width: max-content;">
+<div style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;">
      <h1>Nenhuma lista disponivel.</h1>
   </div>
+</div>
+</body>
 @else
 <div class="container">
       <hr class="mt-3">

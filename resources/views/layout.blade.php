@@ -24,6 +24,9 @@ body{
 	background-color: #1f2029;
 	overflow-x: hidden;
 }
+header{
+  padding: 0!important;
+}
 a {
   color: inherit; 
   text-decoration: inherit;
@@ -373,7 +376,13 @@ h6 span{
   justify-content: center;
   align-items: center;
 }
+.container{
+   padding-left: 2rem;
+   padding-right: 2rem;
+}
+
 .box {
+  margin: 2vh;
   width: auto;
   height: 300px;
 }
