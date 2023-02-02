@@ -11,6 +11,8 @@
 							<div class="card-3d-wrapper">
 								<div class="card-front">
 									<div class="center-wrap">
+									<a href="/index">
+									<button type="button" class="btn-close btn-close-white" aria-label="Close"></button></a>
 										<div class="section text-center">
 										<h4 class="mb-4 pb-3">Nova Lista</h4>
 											@if ($errors->any())

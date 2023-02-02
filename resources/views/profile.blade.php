@@ -59,7 +59,7 @@
       </div>
       <div class="container-perfil col-md-6" style="justify-content:flex-start !important">
         <div class="card">
-        <div class="card-body">
+        <div class="form-control border-dark">
           <div style="margin-left: 5rem; margin-right: 5rem;" >
             <h4 style="color: #1f2029;">Olá {{$usuario->name}}</h4>
             <p style="color: #1f2029;">Email: {{$usuario->email}}</p>
