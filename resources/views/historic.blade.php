@@ -65,13 +65,7 @@
                 <option value="now">Ordernar do Mais Novo para o Mais Antigo</option>
               </select>
             </form>
-            <div class="btn-group me-3" role="group" aria-label="First group">
-                <button type="button" class="btn btn-outline-secondary disabled">1</button>
-                <button type="button" class="btn btn-outline-secondary">2</button>
-                <button type="button" class="btn btn-outline-secondary">3</button>
-                <button type="button" class="btn btn-outline-secondary">4</button>
-              </div>
-          </div>
+            </div>
         </div>
       </div>
       <hr class="mt-3">
