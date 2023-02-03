@@ -27,8 +27,7 @@
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="historic">Histórico</a></li>
-            <li><a class="dropdown-item" href="settings">Configurações</a></li>
-            <li><a class="dropdown-item" href="donation">Doação</a></li>
+            <li><a class="dropdown-item" href="/donation">Doação</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="/logout">Sair</a></li>
           </ul>
@@ -42,9 +41,13 @@
 </nav>       
 </header>
 @if (empty($suasListas->toArray()))
-  <div class="col-md-12 centered mx-auto" style="width: max-content;">
+<body>
+<div class="col-md-12 centered mx-auto container-perfil" style="width: max-content;">
+<div style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;">
      <h1>Nenhuma lista disponivel.</h1>
   </div>
+</div>
+</body>
 @else
 <div class="container">
       <hr class="mt-3">
@@ -68,12 +71,6 @@
                 <option value="now">Ordernar do Mais Novo para o Mais Antigo</option>
               </select>
             </form>
-              <div class="btn-group me-3" role="group" aria-label="First group">
-                <button type="button" class="btn btn-outline-secondary disabled">1</button>
-                <button type="button" class="btn btn-outline-secondary">2</button>
-                <button type="button" class="btn btn-outline-secondary">3</button>
-                <button type="button" class="btn btn-outline-secondary">4</button>
-              </div>
           </div>
         </div>
       </div>

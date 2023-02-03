@@ -2,19 +2,11 @@
 
 namespace App\Http\Controllers;
 
-
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
-
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Lists;
 use App\Models\items;
+use Illuminate\Http\Request;
 
 
 class listsController extends Controller
@@ -72,6 +64,11 @@ class listsController extends Controller
         $novaLista->nome = $request->nome;
         $novaLista->categoria = $request->categoria;
         $novaLista->idCriador = auth()->user()->id;
+        $novaLista->Criador = user::findOrFail(auth()->user()->id)->get('name');
+        foreach($novaLista->Criador as $criador){
+            $novaLista->Criador=$criador->name;
+        }
+        $novaLista->codListParticipante=random_int(000000,999999);
         $novaLista->valorTotal = 0;
         $novaLista->quantidadeItem = 0;
         $novaLista->finaizada = 0;
@@ -172,7 +169,6 @@ class listsController extends Controller
         $itemRemover->delete();
         return back();
     }
-
     public function quantidadeItem()
     {
         $item=items::findOrFail($_GET['id_item']);

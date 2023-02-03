@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('nome');
             $table->string('categoria');
             $table->unsignedBigInteger('idCriador');
+            $table->unsignedBigInteger('codListParticipante');
+            $table->string('Criador');
             $table->unsignedBigInteger('quantidadeItem')->nullable();
             $table->decimal('valorTotal');
             $table->decimal('limiteLista')->nullable();
