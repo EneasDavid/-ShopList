@@ -89,6 +89,8 @@
   </br>
   <div style="display: inline-flex;flex-direction: row;justify-content: space-between;align-items: baseline;width: inherit;">
     <h1>{{$lista->nome}}</h1>
+    
+    <button type="button" class="btn btn-outline">Intengrantes</button>
     <div style="display: inline-flex;flex-direction: row;justify-content: space-around;align-items: baseline;">  
     @if(!isset($lista->limiteLista))
       <p style="color:#54a666;margin-right: 1rem;">R$ {{$lista->valorTotal}}</p>
@@ -127,7 +129,6 @@
     </div>
     <hr>
     <h1>{{$lista->categoria}}</h1>
-   <button></button>
     @if(count($items)>0)
     <ul class="list-group mb-3">
       @foreach($items as $item)
