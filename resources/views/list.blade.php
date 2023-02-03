@@ -206,6 +206,8 @@
           <h4 class="text-dark mb-3">
              Valor Total: R$ {{$lista->valorTotal}}
           </h4>
+          @endif
+
           @if($lista->finaizada==0)
             <a href="/index" class="btn btn-outline-success btn-lg">
               Continuar Depois                           
@@ -219,7 +221,6 @@
         </div>
       </li>
     </ul>
-    @endif
   </div>
 </main>  
 <script src="/cadastroItem.js"></script>
