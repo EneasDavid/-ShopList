@@ -44,12 +44,12 @@ Route::get('/historic', [listsController::class, 'listasFinalizadas'])->middlewa
 
 Route::get('/quantidadeItem', [listsController::class, 'quantidadeItem'])->middleware('auth');
 
-Route::get('/settings', function () {
-    return view('settings');
-});
+Route::POST('/participaAsList', [listsController::class, 'participarLista'])->middleware('auth')->name('participaAsList');
+Route::delete('/removerParticipacao', [listsController::class, 'removerParticipacao'])->middleware('auth')->name('removerParticipacao');
 
 Route::get('/donation', function () {
     return view('donation');
 });
+
 
 

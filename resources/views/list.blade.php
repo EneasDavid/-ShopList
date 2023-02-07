@@ -20,7 +20,7 @@
           <a class="nav-link" aria-current="page" href="/dashboard">Perfil</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="report">Relatório</a>
+          <a class="nav-link" href="/report">Relatório</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -28,7 +28,7 @@
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/historic">Histórico</a></li>
-            <li><a class="dropdown-item" href="/settings">Configurações</a></li>
+            <li><a class="dropdown-item" href="/donation">Doação</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="/logout">Sair</a></li>
           </ul>
@@ -46,51 +46,100 @@
 <main class="fix-fill">
 <div class="modal pagina" id="modalExemplo" tabindex="-1" role="dialog" style="margin: 0!important;" aria-labelledby="exampleModalLabel" aria-hidden="true" popUp-cadastrar-tag>
 <div class="section">
-			<div class="row full-height justify-content-center">
-				<div class="col-12 text-center align-self-center py-5">
-						<div class="card-3d-wrap mx-auto">
-							<div class="card-3d-wrapper">
-								<div class="card-front">
-									<div class="center-wrap">
-									<button type="button" class="btn-close btn-close-white" aria-label="Close" data-dismiss="modal" onclick="removerPopUp()"></button>
-										<div class="section text-center">
-										<h4 class="mb-4 pb-3">Adicionar Produto</h4>
-                    <form class="container" action="{{route('dicionarItem')}}" method="POST">
-												@csrf
-                        <input type="hidden" name="idLista" value="{{$lista->id}}" >
-											<div class="form-group">
-												<input type="text" name="nome" class="form-style input-home" placeholder="Nome do Produto" id="logname" autocomplete="off">
-												<i class="input-icon uil uil-user"></i>
-											</div>
-                        <div class="form-group mt-2">
-												<input type="text" name="preco" class="form-style input-home" placeholder="Preço do produto" id="logname" autocomplete="off">
-												<i class="input-icon uil uil-user"></i>
-											</div>
-											<div class="form-group mt-2">
-                      <input type="text" name="quantidade" class="form-style input-home" placeholder="Quantidade do produto" id="logname" autocomplete="off">
-												<i class="input-icon uil uil-user"></i>
-											</div>	
-                      <div class="form-group mt-2">
-                      <input type="text" name="descricao" class="form-style input-home" placeholder="Descrição do produto" id="logname" autocomplete="off">
-												<i class="input-icon uil uil-user"></i>
-											</div>	
-            <button class="btn" type="submit" onclick="myFunction(this);this.form.submit()">Salvar</button>
-				      					</div>
-</form>
-			      					</div>
-			      				</div>
-			      			</div>  
-			      		</div>
-		      	</div>
-	      	</div>
-	</div>
+    <div class="row full-height justify-content-center">
+        <div class="col-12 text-center align-self-center py-5">
+                <div class="card-3d-wrap mx-auto">
+                    <div class="card-3d-wrapper">
+                        <div class="card-front">
+                            <div class="center-wrap">
+                                <button type="button" class="btn-close btn-close-white" aria-label="Close" data-dismiss="modal" onclick="removerPopUp()"></button>
+                                <div class="section text-center">
+                                    <h4 class="mb-4 pb-3">Adicionar Produto</h4>
+                                    <form class="container" action="{{route('dicionarItem')}}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="idLista" value="{{$lista->id}}" >
+                                        <div class="form-group">
+                                            <input type="text" name="nome" class="form-style input-home" placeholder="Nome do Produto" id="logname" autocomplete="off">
+                                            <i class="input-icon uil uil-user"></i>
+                                        </div>
+                                        <div class="form-group mt-2">
+                                            <input type="text" name="preco" class="form-style input-home" placeholder="Preço do produto" id="logname" autocomplete="off">
+                                            <i class="input-icon uil uil-user"></i>
+                                        </div>
+                                        <div class="form-group mt-2">
+                                            <input type="text" name="quantidade" class="form-style input-home" placeholder="Quantidade do produto" id="logname" autocomplete="off">
+                                            <i class="input-icon uil uil-user"></i>
+                                        </div>	
+                                        <div class="form-group mt-2">
+                                            <input type="text" name="descricao" class="form-style input-home" placeholder="Descrição do produto" id="logname" autocomplete="off">
+                                            <i class="input-icon uil uil-user"></i>
+                                        </div>	
+                                        <button class="btn" type="submit" onclick="myFunction(this);this.form.submit()">Salvar</button>
+                                    </form>
+                                </div>
+                           </div>
+                       </div>  
+                   </div>
+               </div>
+       </div>
+    </div>
+</div>
 </div>
   <div class="container">
   </br>
   <div style="display: inline-flex;flex-direction: row;justify-content: space-between;align-items: baseline;width: inherit;">
     <h1>{{$lista->nome}}</h1>
-    
-    <button type="button" class="btn btn-outline">Intengrantes</button>
+    <button type="button" class="btn" data-target="#modalExemplo" data-salvar onclick="chamaPopUpIntegrantes()">Integrantes</button>
+    {{--Código listagem de integrantes--}}
+    <div class="modal pagina" id="modalExemplo" tabindex="-1" role="dialog" style="margin: 0!important;" aria-labelledby="exampleModalLabel" aria-hidden="true" popUp-integrantes-tag>
+    <div class="section">
+    <div class="row full-height justify-content-center">
+        <div class="col-12 text-center align-self-center py-5">
+                <div class="card-3d-wrap mx-auto">
+                    <div class="card-3d-wrapper">
+                        <div class="card-front">
+                            <div class="center-wrap">
+                                <button type="button" class="btn-close btn-close-white" aria-label="Close" data-dismiss="modal" onclick="removerPopUpIntegrantes()"></button>
+                                <div class="section text-center">
+                                    <h4>Criador da lista</h4>
+                                    <h2 class="mb-4">{{$lista->Criador}}</h2>
+                                    @if($lista->idCriador==$user)
+                                      <h4 class="mb-4 pb-3">Cod. Convite: <strong>{{$lista->id}}</strong></h4>
+                                    @endif
+                                    @if(count($participantes)>0)
+                                      <h4 class="mb-4 pb-3">Participantes</h4>
+                                      @foreach ($participantes as $participante)
+                                      @if($lista->idCriador==$user) 
+                                      <div style="display: flex;flex-direction: row;justify-content: space-evenly;align-items: center;">
+                                      @endif
+                                          <h2>{{$participante->name}}</h2>
+                                          @if($lista->idCriador==$user)
+                                          <form action="/removerParticipacao" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="hidden" name="idUsuario" value="{{$participante->id}}">
+                                            <input type="hidden" name='id' value="{{$lista->id}}">
+                                            <button type="submit" class="botaoLista btn-outline-danger btn-sm" onclick="myFunction(this);this.form.submit()">
+                                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                              </svg>
+                                            </button>
+                                          </form>
+                                        </div>
+                                      @endif
+                                        @endforeach
+                                      @endif
+                                </div>
+                           </div>
+                       </div>  
+                   </div>
+               </div>
+        </div>
+     </div>
+  </div>
+</div>
+    {{--Código listagem de integrantes--}}
     <div style="display: inline-flex;flex-direction: row;justify-content: space-around;align-items: baseline;">  
     @if(!isset($lista->limiteLista))
       <p style="color:#54a666;margin-right: 1rem;">R$ {{$lista->valorTotal}}</p>
@@ -180,6 +229,8 @@
           <h4 class="text-dark mb-3">
              Valor Total: R$ {{$lista->valorTotal}}
           </h4>
+          @endif
+
           @if($lista->finaizada==0)
             <a href="/index" class="btn btn-outline-success btn-lg">
               Continuar Depois                           
@@ -193,7 +244,6 @@
         </div>
       </li>
     </ul>
-    @endif
   </div>
 </main>  
 <script src="/cadastroItem.js"></script>

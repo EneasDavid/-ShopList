@@ -11,7 +11,13 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
+    public function lists(){
+        return $this->hasMany('App\Models\Lists');
+        //Uma lista tem varios usuarios
+    }
+    public function listAsParticipant(){
+        return $this->belongsToMany('App\Models\Lists');
+    }
     /**
      * The attributes that are mass assignable.
      *
@@ -20,7 +26,9 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'password',
+        'foto',
+        'lParticipando',
+        'password'
     ];
 
     /**

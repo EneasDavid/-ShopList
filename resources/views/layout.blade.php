@@ -609,7 +609,14 @@ p.truncate-3l{
     background: linear-gradient(135deg, #23bdb8 0%, #43e794 100%) !important;
     color: #fff;
 }
-
+th, tr{
+   color: aliceblue;
+}
+h7{
+  display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
 .l-bg-orange {
     background: linear-gradient(to right, #f9900e, #ffba56) !important;
     color: #fff;

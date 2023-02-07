@@ -19,7 +19,7 @@
           <a class="nav-link" aria-current="page" href="/dashboard">Perfil</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="report">Relatório</a>
+          <a class="nav-link" href="/report">Relatório</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -27,7 +27,7 @@
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="historic">Histórico</a></li>
-            <li><a class="dropdown-item active" href="donation">Doação</a></li>
+            <li><a class="dropdown-item active" href="/donation">Doação</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="/logout">Sair</a></li>
           </ul>

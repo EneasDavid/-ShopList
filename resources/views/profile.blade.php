@@ -19,7 +19,7 @@
           <a class="nav-link active" aria-current="page" href="/dashboard">Perfil</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="report">Relatório</a>
+          <a class="nav-link" href="/report">Relatório</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -27,7 +27,7 @@
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="historic">Histórico</a></li>
-            <li><a class="dropdown-item" href="settings">Configurações</a></li>
+            <li><a class="dropdown-item" href="/donation">Doação</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="/logout">Sair</a></li>
           </ul>
@@ -43,8 +43,9 @@
       <div class="container-perfil col-md-6 " style="justify-content:end!important">
       
         <div class="box">
-        <form method="POST" action="{{route('adicionarFotoPerfil')}}" enctype="multipart/form-data">
-          @if(isset($usuario->foto))
+        <form style="display: flex;flex-direction: column;" method="POST" action="{{route('adicionarFotoPerfil')}}" enctype="multipart/form-data">
+        @csrf 
+        @if(!empty($usuario->foto))
           <label tabIndex="0" for="picture__input" type="file" class="fotoPerfil picture" style="padding:0px!important" onchange="this.form.submit()">
             <img src="/{{$usuario->foto}}" alt="" style="height: 12rem;width: 12rem;border-radius: inherit;">
           </label>
@@ -54,6 +55,7 @@
           </label>
           @endif
           <input type="file" id="picture__input" name="foto" >
+          <button type="submit" class="btn mt-4">Alterar</button>
         </form>
         </div>
       </div>
@@ -65,7 +67,7 @@
             <p style="color: #1f2029;">Email: {{$usuario->email}}</p>
             <p style="color: #1f2029;">Quantidade de Listas ativas: {{$lAbertas}}</p>
             <p style="color: #1f2029;">Quantidade de Listas finalizadas: {{$lFinalizadas}}</p>
-            <p style="color: #1f2029;">Quantidade de Listas participando: </p>
+            <p style="color: #1f2029;">Quantidade de Listas participando:{{$usuario->lParticipando}} </p>
             </div>
           </div>
         </div>

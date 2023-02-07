@@ -2,19 +2,11 @@
 
 namespace App\Http\Controllers;
 
-
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
-
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Lists;
 use App\Models\items;
+use Illuminate\Http\Request;
 
 
 class listsController extends Controller
@@ -28,9 +20,7 @@ class listsController extends Controller
     }
     public function adicionarFotoPerfil(Request $request)
     {
-        dd('here');
-        /*$usuario=auth()->user()->id;
-        $atualizadoUsuario;
+        $usuario=auth()->user()->id;
         if($request->hasfile('foto') && $request->file('foto')->isValid()){
             //Pega a imagem
             $requestImagem=$request->foto;
@@ -41,20 +31,36 @@ class listsController extends Controller
             //move para a pasta das imagens
             $requestImagem->move(public_path(),$imagemName);
             //salva no bd
-            $atualizadoUsuario=$imagemName;
-           }
-    
-        User::findOrFail($usuario)->uddate([
-            'foto'->$atualizadoUsuario,
-        ]);
-        return back();*/
+            User::findOrFail($usuario)->update([
+                "foto"=>$imagemName,
+            ]);
+        }
+        return redirect("/dashboard");
     }
     public function resumoFinancas()
     {
+        /* Necessito arruamr a opção de "no limite" da lista*/
         $usuario=auth()->user();
-        $suasListasFinalizadas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[0])->get();
-        $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[1])->get();
-        return view('report',['usuario'=>$usuario,'lAbertas'=>$suasListas,'lFinalizadas'=>$suasListasFinalizadas]);
+        $list=Lists::all();
+        $listUpOfLimit=Lists::where('valorTotal','>','limiteLista')->where('limiteLista','!=',null)->whereNotIn('finaizada',[1])->where('idCriador',$usuario->id)->get();
+        $listInLimit=Lists::where('valorTotal','<=','limiteLista')->where('limiteLista','!=',null)->whereNotIn('finaizada',[1])->where('idCriador',$usuario->id)->get();
+        $listOutLimit=Lists::WhereNull('limiteLista')->whereNotIn('finaizada',[1])->where('idCriador',$usuario->id)->get();
+        $busca=request('search'); 
+        if($busca){
+                foreach($list as $li){
+                   if($li->created_at->format('m')==$busca){
+                        $listUpOfLimit->where('created_at',$busca);
+                        $listOutLimit->where('created_at',$busca);
+                        $listInLimit->where('created_at',$busca);
+                    }else{
+                        $listUpOfLimit=null;
+                        $listOutLimit=null;
+                        $listInLimit=null;
+                    } 
+                }
+            }
+        return view('report',['usuario'=>$usuario,'acima'=>$listUpOfLimit,'semlimite'=>$listOutLimit,'nolimite'=>$listInLimit]);
+
     }
     public function criarLista()
     {
@@ -69,9 +75,15 @@ class listsController extends Controller
             'required' => 'Os campos marcados com * são obrigartorios!',
         ]);
         $novaLista = new Lists;
+        $criador=auth()->user()->id;
+        $Criador =user::where('id',$criador)->get('name');
+        foreach($Criador as $c){
+            $novaLista->Criador=$c->name;
+        }
+        $novaLista->id=random_int(000000,999999);
         $novaLista->nome = $request->nome;
         $novaLista->categoria = $request->categoria;
-        $novaLista->idCriador = auth()->user()->id;
+        $novaLista->idCriador = $criador;
         $novaLista->valorTotal = 0;
         $novaLista->quantidadeItem = 0;
         $novaLista->finaizada = 0;
@@ -82,9 +94,11 @@ class listsController extends Controller
     }
     public function Lista($idLista)
     {
+        $user=auth()->user()->id;
         $lista=Lists::findOrFail($idLista);
+        $participantes=$lista->users;
         $items=items::where('listaPertence',$idLista)->get();
-        return view('list',["lista"=>$lista,"items"=>$items]);
+        return view('list',["user"=>$user,"lista"=>$lista,"items"=>$items,'participantes'=>$participantes]);
     }
     public function criarItemsForms(Request $request)
     {
@@ -128,24 +142,40 @@ class listsController extends Controller
     {
         $usuario=auth()->user();
         $busca=$request['pesquisa'];
-        if(isset($busca))
+        if($busca=='now')
         {
-            if($busca=='now')
-            {
-                $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[0])->orderBy('created_at','DESC')->get();
+            $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[0])->orderBy('created_at','DESC')->get();
+            $listasParticipa=$usuario->listAsParticipant;
+            $listaParticipa=[];
+            foreach ($listasParticipa as $l){
+                if($l->finaizada){
+                    array_push($listaParticipa,$l);
+                }
             }
-            elseif($busca=='old')
-            {
-                $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[0])->orderBy('created_at','ASC')->get();    
-            }else{
-                $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[0])->where('nome','like','%'.$busca.'%')->get();
+            arsort($listaParticipa);
+           }
+        elseif($busca=='old')
+        {
+            $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[0])->orderBy('created_at','ASC')->get();    
+            $listasParticipa=$usuario->listAsParticipant;
+            $listaParticipa=[];
+            foreach ($listasParticipa as $l){
+                if($l->finaizada){
+                    array_push($listaParticipa,$l);
+                }
+            }
+            asort($listaParticipa);
+        }else{
+            $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[0])->where('nome','like','%'.$busca.'%')->get();
+            $listasParticipa=$usuario->listAsParticipant;
+            $listaParticipa=[];
+            foreach ($listasParticipa as $l){
+                if($l->finaizada){
+                    array_push($listaParticipa,$l);
+                }
             }
         }
-        else
-        {
-            $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[0])->get();
-        }
-               return view('historic',['suasListas'=>$suasListas]);
+     return view('historic',['suasListas'=>$suasListas,'listasParticipa'=>$listaParticipa]);
     }
     public function destruirItem()
     {
@@ -172,7 +202,6 @@ class listsController extends Controller
         $itemRemover->delete();
         return back();
     }
-
     public function quantidadeItem()
     {
         $item=items::findOrFail($_GET['id_item']);
@@ -225,5 +254,33 @@ class listsController extends Controller
         }
          return back();
     }
-
+    public function participarLista(Request $request){
+        $id=$request->id;
+        $list=Lists::where('id',$id)->first();
+        if(!isset($list)){
+            return back()->with('danger','Lista não encontrada, tente outro convite');
+        }
+        $user=auth()->user();
+        if($user->id!=$list->idCriador){
+            $user->listAsParticipant()->attach($id);
+            $user->update([
+                'lParticipando'=>$user->lParticipando+1,
+            ]);
+            return redirect('/index');
+        }elseif($list->finalizado){
+            return back()->with('danger','Lista não encontrada, tente outro convite');
+        }else{
+            return back()->with('danger','Você é o criar desta lista');
+        }
+    }
+    public function removerParticipacao(Request $request){
+        $id=$request->id;
+        $list=Lists::findOrFail($id);
+        $user=user::findOrFail($request->idUsuario);
+        $user->listAsParticipant()->detach($id);
+        $user->update([
+            'lParticipando'=>$user->lParticipando-1,
+        ]);
+        return redirect('/list/'.$id);
+    }
 }

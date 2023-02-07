@@ -37,6 +37,7 @@ class Controller extends BaseController
             return redirect()->back()->with('danger','E-mail já cadastrado!');
             }
             $novoUsuario->email = $request->email;
+            $novoUsuario->lParticipando=0;
             $novoUsuario->password = Hash::make($request->password);
             $novoUsuario->save();    
             return redirect('/')->with('msg','Cadastro realizado com sucesso!');
@@ -94,18 +95,49 @@ class Controller extends BaseController
                 if($busca=='now')
                 {
                     $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[1])->orderBy('created_at','DESC')->get();
-                }
+                    $listasParticipa=$usuario->listAsParticipant;
+                    $listaParticipa=[];
+                    foreach ($listasParticipa as $l){
+                        if($l->finaizada==0){
+                            array_push($listaParticipa,$l);
+                        }
+                    }
+                    arsort($listaParticipa);
+                   }
                 elseif($busca=='old')
                 {
                     $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[1])->orderBy('created_at','ASC')->get();    
-                }else{
+                    $listasParticipa=$usuario->listAsParticipant;
+                    $listaParticipa=[];
+                    foreach ($listasParticipa as $l){
+                        if($l->finaizada==0){
+                            array_push($listaParticipa,$l);
+                        }
+                    }
+                    asort($listaParticipa);
+                    }else{
                     $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[1])->where('nome','like','%'.$busca.'%')->get();
+                    $listasParticipa=$usuario->listAsParticipant;
+                    $listaParticipa=[];
+                    foreach ($listasParticipa as $l){
+                        if($l->finaizada==0){
+                            array_push($listaParticipa,$l);
+                        }
+                    }
+
                 }
             }
             else
             {
                 $suasListas=Lists::where('idCriador',$usuario->id)->whereNotIn('finaizada',[1])->get();
+                $listasParticipa=$usuario->listAsParticipant;
+                $listaParticipa=[];
+                foreach ($listasParticipa as $l){
+                    if($l->finaizada==0){
+                        array_push($listaParticipa,$l);
+                    }
+                }
             }
-            return view('home',['suasListas'=>$suasListas]);
+            return view('home',['suasListas'=>$suasListas,'listasParticipa'=>$listaParticipa]);
         }
 }
