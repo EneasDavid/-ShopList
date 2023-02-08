@@ -42,20 +42,19 @@
   <div class="row mb-4">
       <div class="container-perfil col-md-6 " style="justify-content:end!important">
       
-        <div class="box">
+        <div class="box" style="margin-top: 4vh !important;">
         <form style="display: flex;flex-direction: column;" method="POST" action="{{route('adicionarFotoPerfil')}}" enctype="multipart/form-data">
         @csrf 
         @if(!empty($usuario->foto))
-          <label tabIndex="0" for="picture__input" type="file" class="fotoPerfil picture" style="padding:0px!important" onchange="this.form.submit()">
-            <img src="/{{$usuario->foto}}" alt="" style="height: 12rem;width: 12rem;border-radius: inherit;">
+          <label tabIndex="0" for="picture__input" type="file" class="fotoPerfil picture" style="padding:0px!important">
+            <img src="/{{$usuario->foto}}" alt="Não foi possível carregar sua foto" style="height: 15rem;width: 15rem;border-radius: inherit;">
           </label>
           @else
-          <label tabIndex="0" for="picture__input" type="file" class="fotoPerfil picture" style="background: rgb(219, 221, 223);" onchange="this.form.submit()">
-            <img src="/user.png" style="height: 6.5rem; width:6.5rem;"></img>
+          <label tabIndex="0" for="picture__input" type="file" class="fotoPerfil picture" style="background: rgb(219, 221, 223);">
+            <img src="/user.png" style="height: 15rem;width: 15rem;border-radius: inherit;"></img>
           </label>
           @endif
-          <input type="file" id="picture__input" name="foto" >
-          <button type="submit" class="btn mt-4">Alterar</button>
+          <input type="file" id="picture__input" name="foto" onchange="this.form.submit()">
         </form>
         </div>
       </div>

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->decimal('preco');
             $table->unsignedBigInteger('quantidade');
             $table->string('descricao')->nullable();
-            $table->unsignedBigInteger('responsavelItem');
+            $table->string('responsavelItem');
             $table->unsignedBigInteger('listaPertence');
             $table->timestamps();
         });

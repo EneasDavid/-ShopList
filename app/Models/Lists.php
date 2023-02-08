@@ -16,6 +16,7 @@ class Lists extends Model
     protected $fillable = [
         'nome',
         'categoria',
+        'limiteLista',
         'valorTotal',
         'quantidadeItem',
         'porcetagemLimite',

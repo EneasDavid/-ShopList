@@ -612,10 +612,28 @@ p.truncate-3l{
 th, tr{
    color: aliceblue;
 }
+.color{
+  color: black;
+  font-family: monospace;
+}
+
+element.style {
+}
+.slider-wrapper {
+  height: 150px;
+  width: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.slider-wrapper input {
+    margin: 0;
+  }
 h7{
   display: flex;
-    justify-content: space-around;
-    align-items: center;
+  font-family: "Fira Sans", "Source Sans Pro", Helvetica, Arial, sans-serif;
+  align-items: center;
 }
 .l-bg-orange {
     background: linear-gradient(to right, #f9900e, #ffba56) !important;

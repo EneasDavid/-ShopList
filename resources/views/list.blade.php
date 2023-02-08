@@ -102,18 +102,18 @@
                                 <button type="button" class="btn-close btn-close-white" aria-label="Close" data-dismiss="modal" onclick="removerPopUpIntegrantes()"></button>
                                 <div class="section text-center">
                                     <h4>Criador da lista</h4>
-                                    <h2 class="mb-4">{{$lista->Criador}}</h2>
+                                    <h2 class="mb-4"><strong>{{$lista->Criador}}</strong></h2>
                                     @if($lista->idCriador==$user)
-                                      <h4 class="mb-4 pb-3">Cod. Convite: <strong>{{$lista->id}}</strong></h4>
+                                      <h4 class="mb-4">Cod. Convite: <strong>{{$lista->id}}</strong></h4>
                                     @endif
                                     @if(count($participantes)>0)
-                                      <h4 class="mb-4 pb-3">Participantes</h4>
+                                      <h4>Participantes</h4>
                                       @foreach ($participantes as $participante)
-                                      @if($lista->idCriador==$user) 
+                                      @if($lista->idCriador==$user or $participante->id==$user) 
                                       <div style="display: flex;flex-direction: row;justify-content: space-evenly;align-items: center;">
-                                      @endif
-                                          <h2>{{$participante->name}}</h2>
-                                          @if($lista->idCriador==$user)
+                                        @endif
+                                        <h2>{{$participante->name}}</h2>
+                                        @if($lista->idCriador==$user  or $participante->id==$user)
                                           <form action="/removerParticipacao" method="post">
                                             @csrf
                                             @method('DELETE')
@@ -126,9 +126,11 @@
                                               </svg>
                                             </button>
                                           </form>
+                                      @endif
+                                      @if($lista->idCriador==$user or $participante->id==$user) 
                                         </div>
                                       @endif
-                                        @endforeach
+                                      @endforeach
                                       @endif
                                 </div>
                            </div>
@@ -142,14 +144,14 @@
     {{--Código listagem de integrantes--}}
     <div style="display: inline-flex;flex-direction: row;justify-content: space-around;align-items: baseline;">  
     @if(!isset($lista->limiteLista))
-      <p style="color:#54a666;margin-right: 1rem;">R$ {{$lista->valorTotal}}</p>
+      <p style="color:#54a666;margin-right: 1rem;">R$ {{str_replace(".",",",$lista->valorTotal)}}</p>
       @else
       @if($lista->valorTotal<=(($lista->limiteLista/10)*9))
-      <p style="color:#b5acac;margin-right: 1rem;">R$ {{$lista->valorTotal}}</p>
+      <p style="color:#b5acac;margin-right: 1rem;">R$ {{str_replace(".",",",$lista->valorTotal)}}</p>
       @elseif($lista->valorTotal>=(($lista->limiteLista/10)*9) and $lista->valorTotal<=$lista->limiteLista)
-      <p style="color:#54a666;margin-right: 1rem;">R$ {{$lista->valorTotal}}</p>
+      <p style="color:#54a666;margin-right: 1rem;">R$ {{str_replace(".",",",$lista->valorTotal)}}</p>
       @else
-      <p style="color:#e6d53a;margin-right: 1rem;">R$ {{$lista->valorTotal}}</p>
+      <p style="color:#e6d53a;margin-right: 1rem;">R$ {{str_replace(".",",",$lista->valorTotal)}}</p>
       @endif
       @endif
       <div class="progress mt-1 " data-height="8" style="height: 8px;">
@@ -167,24 +169,32 @@
       </div>
       @if(isset($lista->limiteLista))
           @if($lista->valorTotal<=(($lista->limiteLista/10)*9))
-          <p title="Limite previsto" style="color:#b5acac;margin-left: 1rem;">R$ {{$lista->limiteLista}}</p>
+          <p title="Limite previsto" style="color:#b5acac;margin-left: 1rem;">R$ {{str_replace(".",",",$lista->limiteLista)}}</p>
           @elseif($lista->valorTotal>=(($lista->limiteLista/10)*9) and $lista->valorTotal<=$lista->limiteLista)
-          <p title="Limite previsto" style="color:#54a666;margin-left: 1rem;">R$ {{$lista->limiteLista}}</p>
+          <p title="Limite previsto" style="color:#54a666;margin-left: 1rem;">R$ {{str_replace(".",",",$lista->limiteLista)}}</p>
           @else
-          <p title="Limite previsto" style="color:#e6d53a;margin-left: 1rem;">R$ {{$lista->limiteLista}}</p>
+          <p title="Limite previsto" style="color:#e6d53a;margin-left: 1rem;">R$ {{str_replace(".",",",$lista->limiteLista)}}</p>
           @endif
         @endif
     </div>
     </div>
     <hr>
-    <h1>{{$lista->categoria}}</h1>
+    <div style="display: flex;align-items: center;justify-content: space-between;">
+      <h1>{{$lista->categoria}}</h1>
+      @if($lista->idCriador==$user and $lista->finaizada==0)
+      <a href="/editList/{{$lista->id}}" type="button" class="btn" >Editar</a>
+      @endif
+    </div>
     @if(count($items)>0)
     <ul class="list-group mb-3">
       @foreach($items as $item)
       <li class="list-group-item py-3">
         <div class="row g-3" style="justify-content: space-between;">
           <div class="col-8 col-md-9 col-lg-7 col-xl-8 text-left align-self-center">
-          <h4><b><a href="#" class="text-decoration-none text-a">{{$item->nomeProduto}}</a></b></h4>
+          <div>
+            <h4><b>{{$item->nomeProduto}}</b></h4>
+            <small>Adicionado por: <b>{{$item->responsavelItem}}</b></small>
+          </div>
           <h4>
             <small>{{$item->descricao}}</small>
           </h4>
@@ -217,8 +227,8 @@
             </div>
             @endif
             <div class="input-group" class="text-end mt-2">
-              <small class="text-secondary">Valor UN: R$ {{$item->preco}}</small><br>
-              <span class="text-dark">Valor Item: R$ @php echo $item->preco*$item->quantidade @endphp</span>
+              <small class="text-secondary">Valor UN: R$ {{str_replace(".",",",$item->preco)}}</small><br>
+              <span class="text-dark">Valor Item: R$ @php echo str_replace(".",",",($item->preco*$item->quantidade)) @endphp</span>
             </div>
           </div>
         </div>
@@ -227,7 +237,7 @@
       <li class="list-group-item py-3">
         <div class="text-end">
           <h4 class="text-dark mb-3">
-             Valor Total: R$ {{$lista->valorTotal}}
+             Valor Total: R$ {{str_replace(".",",",$lista->valorTotal)}}
           </h4>
           @endif
 
@@ -235,9 +245,11 @@
             <a href="/index" class="btn btn-outline-success btn-lg">
               Continuar Depois                           
             </a>
+            @if($lista->idCriador==$user)
             <a href="/finalizarLista?id={{$lista->id}}" class="btn btn-danger btn-lg ms-2 mt-xs-3">
               Terminar Compra
             </a>
+            @endif
             @else
             <h4>Essa lista já foi fianlizada</h4>
             @endif

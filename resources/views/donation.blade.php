@@ -44,8 +44,9 @@
         <h4 style="color: #1f2029;">Nos ajude a manter esse site atualizado, nos pague um cafezinho!</h4>
         </div>
         <div class="box" style="height:auto !important;">
-          <label tabIndex="0" for="picture__input" type="file" class="fotoPerfil picture" style="padding:0px!important">
-            <img src="/pix.jpeg" alt="" style="height: 12rem;width: 12rem;">
+          <label tabIndex="0" for="picture__input" type="file" class="fotoPerfil picture" style="display: flex;flex-direction: column;align-items: center;padding:0px!important">
+          <h4 style="color:#1f2029">PIX:</h4>  
+          <img src="/pix.jpeg" alt="" style="height: 12rem;width: 12rem;">
           </label>
         </div>
       </div>

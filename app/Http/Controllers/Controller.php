@@ -74,16 +74,23 @@ class Controller extends BaseController
         }
         public function esqueceuSenhaFormsEmail(Request $request)
         {
-            $email=$request->email;
-            $status = Password::sendResetLink(
-                $request->only('email')
-            );
-            return $status === Password::RESET_LINK_SENT
-                        ? back()->with(['status' => __($status)])
-                        : back()->withErrors(['email' => __($status)]);     
+            $this->validate($request,[
+                'email'=>'required',
+            ],[
+                'required' => 'O compo de :attribute é um campo obrigartorio!',  
+            ]);
+            $usuario=User::where('email',$request->email)->first(); 
+            if(!$usuario){
+                return back()->with('danger','Email não cadastrado, tente outro!');
+            }
+            return redirect('/sendEmail/send',['destinatario'=>$usuario]);
         }
-        public function esqueceuSenhaForms ($token) {
-            return view('auth.reset-password', ['token' => $token]);
+        public function enviarEmailRedSenha ()
+        {
+            return redirect('/password_reset')->with('success','Enviamos um email com as instruções para redefinir sua senha');
+        }
+        public function esqueceuSenhaForms () {
+            
         }
     //after login
         public function index(Request $request)

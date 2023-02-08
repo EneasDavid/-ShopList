@@ -39,9 +39,13 @@
 </header>
 
 @if (empty($suasListas->toArray()) and empty($listasParticipa))
-  <div class="col-md-12 centered mx-auto" style="width: max-content;">
+<body>
+<div class="col-md-12 centered mx-auto container-perfil" style="width: max-content;">
+<div style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;">
      <h1>Nenhuma lista disponivel.</h1>
   </div>
+</div>
+</body>
 @else
 <div class="container">
       <hr class="mt-3">
@@ -85,11 +89,11 @@
                         <div class="row align-items-center mb-2 d-flex">
                             <div class="col-8">
                                 <h2 class="d-flex align-items-center mb-0">
-                                R$ {{$listas->valorTotal}}
+                                R$ {{str_replace(".",",",$listas->valorTotal)}}
                                 </h2>
                             </div>
                             <div class="col-4 text-right" style="height: 3rem;">
-                                <span> Limite: R$ {{$listas->limiteLista}}</span>
+                                <span> Limite: R$ {{str_replace(".",",",$listas->limiteLista)}}</span>
                             </div>
                         </div>
                         <div class="progress mt-1 " data-height="8" style="height: 8px;">

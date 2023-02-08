@@ -41,26 +41,109 @@ class listsController extends Controller
     {
         /* Necessito arruamr a opção de "no limite" da lista*/
         $usuario=auth()->user();
-        $list=Lists::all();
-        $listUpOfLimit=Lists::where('valorTotal','>','limiteLista')->where('limiteLista','!=',null)->whereNotIn('finaizada',[1])->where('idCriador',$usuario->id)->get();
-        $listInLimit=Lists::where('valorTotal','<=','limiteLista')->where('limiteLista','!=',null)->whereNotIn('finaizada',[1])->where('idCriador',$usuario->id)->get();
-        $listOutLimit=Lists::WhereNull('limiteLista')->whereNotIn('finaizada',[1])->where('idCriador',$usuario->id)->get();
         $busca=request('search'); 
         if($busca){
-                foreach($list as $li){
-                   if($li->created_at->format('m')==$busca){
-                        $listUpOfLimit->where('created_at',$busca);
-                        $listOutLimit->where('created_at',$busca);
-                        $listInLimit->where('created_at',$busca);
-                    }else{
-                        $listUpOfLimit=null;
-                        $listOutLimit=null;
-                        $listInLimit=null;
-                    } 
-                }
+            $list=Lists::where('idCriador',$usuario->id)->whereMonth('created_at', $busca)->get();
+            $valorTotal=Lists::whereMonth('created_at', $busca)->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        }else{
+            $list=Lists::where('idCriador',$usuario->id)->whereMonth('created_at', date('m'))->get();
+            $valorTotal=Lists::whereMonth('created_at', date('m'))->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        }
+        $valorGastosMes=0;
+        $valorGastosJaneiro=0;
+        $valorGastosJ=Lists::whereMonth('created_at', '01')->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        $valorGastosFevereiro=0;
+        $valorGastosF=Lists::whereMonth('created_at', '02')->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        $valorGastosMarco=0;
+        $valorGastosM=Lists::whereMonth('created_at', '03')->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        $valorGastosAbril=0;
+        $valorGastosAb=Lists::whereMonth('created_at', '04')->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        $valorGastosMaio=0;
+        $valorGastosMa=Lists::whereMonth('created_at', '05')->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        $valorGastosJunho=0;
+        $valorGastosJu=Lists::whereMonth('created_at', '06')->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        $valorGastosJulho=0;
+        $valorGastosJl=Lists::whereMonth('created_at', '07')->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        $valorGastosAgosto=0;
+        $valorGastosA=Lists::whereMonth('created_at', '08')->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        $valorGastosSetembro=0;
+        $valorGastosS=Lists::whereMonth('created_at', '09')->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        $valorGastosOutubro=0;
+        $valorGastosO=Lists::whereMonth('created_at', '10')->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        $valorGastosNovembro=0;
+        $valorGastosN=Lists::whereMonth('created_at', '11')->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        $valorGastosDezembro=0;
+        $valorGastosD=Lists::whereMonth('created_at', '12')->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        foreach($valorTotal as $li){
+            foreach($li as $l){
+                $valorGastosMes+=$l;
             }
-        return view('report',['usuario'=>$usuario,'acima'=>$listUpOfLimit,'semlimite'=>$listOutLimit,'nolimite'=>$listInLimit]);
-
+        }
+        foreach($valorGastosJ as $li){
+            foreach($li as $l){
+                $valorGastosJaneiro+=$l;
+            }
+        }
+        foreach($valorGastosF as $li){
+            foreach($li as $l){
+                $valorGastosFevereiro+=$l;
+            }
+        }    
+        foreach($valorGastosM as $li){
+            foreach($li as $l){
+                $valorGastosMarco+=$l;
+            }
+        }
+        foreach($valorGastosAb as $li){
+            foreach($li as $l){
+                $valorGastosAbril+=$l;
+            }
+        }
+        foreach($valorGastosMa as $li){
+            foreach($li as $l){
+                $valorGastosMaio+=$l;
+            }
+        }
+        foreach($valorGastosJu as $li){
+            foreach($li as $l){
+                $valorGastosJunho+=$l;
+            }
+        }
+        foreach($valorGastosJl as $li){
+            foreach($li as $l){
+                $valorGastosJulho+=$l;
+            }
+        }
+        foreach($valorGastosA as $li){
+            foreach($li as $l){
+                $valorGastosAgosto+=$l;
+            }
+        }
+        foreach($valorGastosS as $li){
+            foreach($li as $l){
+                $valorGastosSetembro+=$l;
+            }
+        }
+        foreach($valorGastosO as $li){
+            foreach($li as $l){
+                $valorGastosOutubro+=$l;
+            }
+        }
+        foreach($valorGastosN as $li){
+            foreach($li as $l){
+                $valorGastosNovembro+=$l;
+            }
+        }
+        foreach($valorGastosD as $li){
+            foreach($li as $l){
+                $valorGastosDezembro+=$l;
+            }
+        }
+        $valorMaximo=max($valorGastosJaneiro,$valorGastosFevereiro,$valorGastosMarco,$valorGastosAbril,$valorGastosMaio,$valorGastosJunho,$valorGastosJulho,$valorGastosAgosto,$valorGastosSetembro,$valorGastosOutubro,$valorGastosNovembro,$valorGastosDezembro);
+        if($valorMaximo==0){
+            $valorMaximo=1;
+        }
+        return view('report',['maximo'=>$valorMaximo,'usuario'=>$usuario, 'listas'=>$list, 'search'=>$busca, 'gastosDoMes'=>$valorGastosMes, 'gastosDoJ'=>$valorGastosJaneiro, 'gastosDoF'=>$valorGastosFevereiro, 'gastosDoM'=>$valorGastosMarco, 'gastosDoAb'=>$valorGastosAbril, 'gastosDoMa'=>$valorGastosMaio, 'gastosDoJu'=>$valorGastosJunho, 'gastosDoJl'=>$valorGastosJulho, 'gastosDoA'=>$valorGastosAgosto, 'gastosDoS'=>$valorGastosSetembro, 'gastosDoO'=>$valorGastosOutubro, 'gastosDoN'=>$valorGastosNovembro, 'gastosDoD'=>$valorGastosDezembro]);
     }
     public function criarLista()
     {
@@ -88,9 +171,29 @@ class listsController extends Controller
         $novaLista->quantidadeItem = 0;
         $novaLista->finaizada = 0;
         $novaLista->porcetagemLimite= 0;
-        $novaLista->limiteLista = $request->limiteLista;
+        if($request->limiteLista){
+            $novaLista->limiteLista =str_replace(",",".",$request->limiteLista);
+        }
         $novaLista->save();
         return redirect('/index');
+    }
+    public function editarLista($id)
+    {
+        return view('new_list',['lista'=>Lists::findOrFail($id)]);
+    }
+    public function editarListaForms(Request $request){
+        $this->validate($request,[
+            'nome'=>'required',
+            'categoria'=>'required'
+            ],[
+                'required' => 'Os campos marcados com * são obrigartorios!',
+        ]);
+        Lists::findOrFail($_GET['id'])->update([
+            'nome'=>$request->nome,
+            'categoria'=>$request->categoria,
+            'limiteLista'=>str_replace(",",".",$request->limiteLista)
+        ]);
+        return redirect('/list/'.$_GET['id']);
     }
     public function Lista($idLista)
     {
@@ -104,10 +207,10 @@ class listsController extends Controller
     {
         $novoItem = new items;
         $novoItem->nomeProduto = $request->nome;
-        $novoItem->preco = $request->preco;
+        $novoItem->preco = str_replace(",",".",$request->preco);
         $novoItem->quantidade = $request->quantidade;
         $novoItem->descricao = $request->descricao;
-        $novoItem->responsavelItem = auth()->user()->id;
+        $novoItem->responsavelItem = auth()->user()->name;
         $novoItem->listaPertence = $request->idLista;
         $novoItem->save();
         $listaCerta=Lists::findOrFail($novoItem->listaPertence);

@@ -91,11 +91,11 @@
                         <div class="row align-items-center mb-2 d-flex">
                             <div class="col-8">
                                 <h2 class="d-flex align-items-center mb-0">
-                                R$ {{$listas->valorTotal}}
+                                R$ {{str_replace(".",",",$listas->valorTotal)}}
                                 </h2>
                             </div>
                             <div class="col-4 text-right" style="height: 3rem;">
-                                <span> Limite: R$ {{$listas->limiteLista}}</span>
+                                <span> Limite: R$ {{str_replace(".",",",$listas->limiteLista)}}</span>
                             </div>
                         </div>
                         <div class="progress mt-1 " data-height="8" style="height: 8px;">
@@ -133,11 +133,11 @@
                         <div class="row align-items-center mb-2 d-flex">
                             <div class="col-8">
                                 <h2 class="d-flex align-items-center mb-0">
-                                R$ {{$listas->valorTotal}}
+                                R$ {{str_replace(".",",",$listas->valorTotal)}}
                                 </h2>
                             </div>
                             <div class="col-4 text-right" style="height: 3rem;">
-                                <span> Limite: R$ {{$listas->limiteLista}}</span>
+                                <span> Limite: R$ {{str_replace(".",",",$listas->limiteLista)}}</span>
                             </div>
                         </div>
                         <div class="progress mt-1 " data-height="8" style="height: 8px;">

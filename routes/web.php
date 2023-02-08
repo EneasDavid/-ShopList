@@ -20,6 +20,7 @@ Route::post('/Forms-Cadastro',[Controller::class, 'cadastroForms'])->name('login
 
 Route::get('/password_reset', [Controller::class, 'indexSenha']);
 Route::post('/esqueceuSenha-Forms-email', [Controller::class, 'esqueceuSenhaFormsEmail'])->name('recSenhaToEmail');
+Route::post('/sendEmail/send', [Controller::class, 'enviarEmailRedSenha']);
 Route::PUT('/esqueceuSenha-Forms', [Controller::class, 'esqueceuSenhaForms'])->name('recSenhaEntidade');
 
 
@@ -41,6 +42,9 @@ Route::get('/finalizarLista', [listsController::class, 'finalizarLista'])->middl
 
 Route::delete('/deleteItem', [listsController::class, 'destruirItem'])->middleware('auth')->name('deleteItem');
 Route::get('/historic', [listsController::class, 'listasFinalizadas'])->middleware('auth');
+
+Route::get('/editList/{id}', [listsController::class, 'editarLista'])->middleware('auth');
+Route::post('/editarLista', [listsController::class, 'editarListaForms'])->middleware('auth');
 
 Route::get('/quantidadeItem', [listsController::class, 'quantidadeItem'])->middleware('auth');
 
