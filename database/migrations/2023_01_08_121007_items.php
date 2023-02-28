@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('quantidade');
             $table->string('descricao')->nullable();
             $table->string('responsavelItem');
+            $table->unsignedBigInteger('idResponsavelItem');
             $table->unsignedBigInteger('listaPertence');
             $table->timestamps();
         });

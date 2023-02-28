@@ -24,7 +24,7 @@
 									<div class="center-wrap">
 										<div class="section text-center">
 										@if(empty($lista))
-										<a type="button" href="/index" class="btn-close btn-close-white" aria-label="Close"></a>
+										<a type="button" href="/home" class="btn-close btn-close-white" aria-label="Close"></a>
 										@else
 										<a type="button" href="/list/{{$lista->id}}" class="btn-close btn-close-white" aria-label="Close"></a>
 										@endif
@@ -66,7 +66,7 @@
 													<i class="input-icon uil uil-user"></i>
 												</div>
 												<div class="form-group mt-2">
-													<input type="text" name="limiteLista" class="form-style" placeholder="Limite da lista" id="logname" autocomplete="off" title="Limite da lista é opcional" value='{{!empty($lista)?"".str_replace(".",",",$lista->limiteLista)."":""}}'>
+													<input type="number" step="0.01" name="limiteLista" class="form-style" placeholder="Limite da lista" id="logname" autocomplete="off" title="Limite da lista é opcional" value='{{!empty($lista)?"$lista->limiteLista":""}}'>
 													<i class="input-icon uil uil-user"></i>
 												</div>		
 												<button type="submit" class="btn mt-4">{{empty($lista)?"CRIAR LISTA":"EDITAR LISTA"}}</button>
@@ -77,7 +77,7 @@
 									<div class="card-back">
 									<div class="center-wrap">
 										<div class="section text-center">
-										<a type="button" href="/index" class="btn-close btn-close-white" aria-label="Close"></a>
+										<a type="button" href="/home" class="btn-close btn-close-white" aria-label="Close"></a>
 											<h4 class="mb-4 pb-3">Participar da Lista</h4>
 			      						</div>
 										  @if (session('danger'))
@@ -88,7 +88,7 @@
 										  <form action="{{route('participaAsList')}}" method="POST">
 												@csrf
 												<div class="form-group">
-													<input type="text" name="id" class="form-style" placeholder="Convite*" id="logname" autocomplete="off">
+													<input type="number" name="id" class="form-style" placeholder="Convite*" id="logname" autocomplete="off">
 													<i class="input-icon uil uil-user"></i>
 												</div>
 												<button type="submit" class="btn mt-4">PARTICIPAR</button>

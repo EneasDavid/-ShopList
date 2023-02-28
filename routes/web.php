@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\listsController;
+use App\Mail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,46 +14,49 @@ use App\Http\Controllers\listsController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', [Controller::class, 'login'])->name('login');
-Route::post('/Forms-Login',[Controller::class, 'loginForms'])->name('login.forms');
-Route::post('/Forms-Cadastro',[Controller::class, 'cadastroForms'])->name('login.cadastro');
-
-Route::get('/password_reset', [Controller::class, 'indexSenha']);
-Route::post('/esqueceuSenha-Forms-email', [Controller::class, 'esqueceuSenhaFormsEmail'])->name('recSenhaToEmail');
-Route::post('/sendEmail/send', [Controller::class, 'enviarEmailRedSenha']);
-Route::PUT('/esqueceuSenha-Forms', [Controller::class, 'esqueceuSenhaForms'])->name('recSenhaEntidade');
-
-
-Route::get('/logout',function(){
-    Auth::logout();
-    return redirect('/');
-})->middleware('auth')->name('logout');
-
-Route::get('/dashboard', [listsController::class, 'perfil'])->middleware('auth');
-Route::get('/index', [Controller::class, 'index'])->middleware('auth');
-Route::get('/report', [listsController::class, 'resumoFinancas'])->middleware('auth');
-Route::POST('/adicionarFotoPerfil', [listsController::class, 'adicionarFotoPerfil'])->middleware('auth')->name('adicionarFotoPerfil');
-
-Route::get('/new_list', [listsController::class, 'criarLista'])->middleware('auth');
-Route::POST('/creat_list', [listsController::class, 'criarListaForms'])->middleware('auth')->name('criarLista');
-Route::get('/list/{id}', [listsController::class, 'Lista'])->middleware('auth');
-Route::POST('/adicionarItem', [listsController::class, 'criarItemsForms'])->middleware('auth')->name('dicionarItem');
-Route::get('/finalizarLista', [listsController::class, 'finalizarLista'])->middleware('auth');
-
-Route::delete('/deleteItem', [listsController::class, 'destruirItem'])->middleware('auth')->name('deleteItem');
-Route::get('/historic', [listsController::class, 'listasFinalizadas'])->middleware('auth');
-
-Route::get('/editList/{id}', [listsController::class, 'editarLista'])->middleware('auth');
-Route::post('/editarLista', [listsController::class, 'editarListaForms'])->middleware('auth');
-
-Route::get('/quantidadeItem', [listsController::class, 'quantidadeItem'])->middleware('auth');
-
-Route::POST('/participaAsList', [listsController::class, 'participarLista'])->middleware('auth')->name('participaAsList');
-Route::delete('/removerParticipacao', [listsController::class, 'removerParticipacao'])->middleware('auth')->name('removerParticipacao');
-
 Route::get('/donation', function () {
     return view('donation');
+});
+
+Route::middleware('guest')->group(function(){
+    Route::get('/', [Controller::class, 'login'])->name('login');
+    Route::POST('/Forms-Login',[Controller::class, 'loginForms'])->name('login.forms');
+    Route::POST('/Forms-Cadastro',[Controller::class, 'cadastroForms'])->name('login.cadastro');
+    
+    Route::get('/password_reset', [Controller::class, 'indexSenha']);
+    Route::POST('/esqueceuSenha-Forms-email', [Controller::class, 'esqueceuSenhaFormsEmail'])->name('recSenhaToEmail');
+    Route::get('/esqueceuSenha-Forms-senha/{userId}', [Controller::class, 'verificaIDPassword']);
+    Route::POST('/esqueceuSenha-Forms', [Controller::class, 'esqueceuSenhaForms'])->name('recSenhaEntidade');
+});
+Route::middleware('auth')->group( function(){
+    Route::get('/logout',function(){
+        Auth::logout();
+        return redirect('/');
+    })->name('logout');
+
+    Route::get('/dashboard', [listsController::class, 'perfil']);
+    Route::get('/home', [Controller::class, 'index']);
+    Route::get('/report', [listsController::class, 'resumoFinancas']);
+    Route::POST('/adicionarFotoPerfil', [listsController::class, 'adicionarFotoPerfil'])->name('adicionarFotoPerfil');
+
+    Route::get('/new_list', [listsController::class, 'criarLista']);
+    Route::POST('/creat_list', [listsController::class, 'criarListaForms'])->name('criarLista');
+    Route::get('/list/{id}', [listsController::class, 'Lista']);
+    Route::get('/listChange/{id}', [listsController::class, 'ListaMudanca']);
+    Route::POST('/listItemChange', [listsController::class, 'listaItemMudanca']);
+    Route::POST('/adicionarItem', [listsController::class, 'criarItemsForms'])->name('dicionarItem');
+    Route::get('/finalizarLista', [listsController::class, 'finalizarLista']);
+
+    Route::delete('/deleteItem', [listsController::class, 'destruirItem'])->name('deleteItem');
+    Route::get('/historic', [listsController::class, 'listasFinalizadas']);
+
+    Route::get('/editList/{id}', [listsController::class, 'editarLista']);
+    Route::post('/editarLista', [listsController::class, 'editarListaForms']);
+
+    Route::get('/quantidadeItem', [listsController::class, 'quantidadeItem']);
+
+    Route::POST('/participaAsList', [listsController::class, 'participarLista'])->name('participaAsList');
+    Route::delete('/removerParticipacao', [listsController::class, 'removerParticipacao'])->name('removerParticipacao');
 });
 
 

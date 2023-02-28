@@ -47,7 +47,8 @@ ul {
   cursor:pointer;
 }
 .navbar {
-    background: white;
+    --globalnav-background: rgba(22, 22, 23, .88);
+    background: rgb(255 255 255 / 26%);;
     padding: 3rem 2rem;
     height: 0rem;
     min-height: 12vh;
@@ -88,21 +89,23 @@ ul {
 .navbar-expand-lg .navbar-nav .nav-link {
     padding: 2rem 1.2rem;
     font-size: 1.4rem;
+    color:#edeff170;
     position: relative;
 }
 .navbar-expand-lg .navbar-nav .nav-link:hover {
     border-top: 4px solid #ffeba7;
 }
 .navbar-expand-lg .navbar-nav .nav-link.active {
-    border-top: 4px solid #ffeba7;
-    color: #ffeba7;
+    border-top: 4px solid #ffffff;
+    color: #ffffff;
+    font-weight: 500;
 }
 .navbar-nav button {
     padding: 1.2rem 0;
 }
 .navbar-nav .btn {
     background-color: #ffeba7;
-    color: white;
+    color:  #01426b;
     border-radius: 0;
     padding: 1rem 1.5rem;
     font-size: 1.2rem;
@@ -129,6 +132,10 @@ h6 span{
   padding: 0 20px;
   text-transform: uppercase;
   font-weight: 700;
+}
+.img-perfil{
+  object-fit: cover;
+  border-radius:100%;
 }
 .section{
   position: relative;
@@ -503,11 +510,14 @@ h6 span{
 }
 .container-perfil {
   width: 80vh;
-  height: 80vh;
+  height: 70vh;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+.row{
+  justify-content: space-around;
 }
 .container{
    padding-left: 2rem;
@@ -542,6 +552,14 @@ p.truncate-3l{
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.truncate-1l{
+  display:-webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .logo {
 	position: absolute;
 	top: 30px;
@@ -630,6 +648,10 @@ element.style {
 .slider-wrapper input {
     margin: 0;
   }
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 h7{
   display: flex;
   font-family: "Fira Sans", "Source Sans Pro", Helvetica, Arial, sans-serif;

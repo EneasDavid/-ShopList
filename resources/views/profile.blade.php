@@ -7,7 +7,7 @@
 <header class="header">
 <nav class="navbar navbar-expand-lg header-nav fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/index">ShopList</a>
+  <a class="navbar-brand" href="/home">ShopList</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span></span>
       <span></span>
@@ -40,6 +40,7 @@
 </header>
 <body>
   <div class="row mb-4">
+    <a href="/home"><img style="height: 30px;" src="previous.png" alt="back to home page"></a>
       <div class="container-perfil col-md-6 " style="justify-content:end!important">
       
         <div class="box" style="margin-top: 4vh !important;">
@@ -47,11 +48,11 @@
         @csrf 
         @if(!empty($usuario->foto))
           <label tabIndex="0" for="picture__input" type="file" class="fotoPerfil picture" style="padding:0px!important">
-            <img src="/{{$usuario->foto}}" alt="Não foi possível carregar sua foto" style="height: 15rem;width: 15rem;border-radius: inherit;">
+            <img class="img-perfil" src="/{{$usuario->foto}}" alt="Não foi possível carregar sua foto" style="height: 15rem;width: 15rem;border-radius: inherit;" title="click aqui para mudar sua foto de perfil">
           </label>
           @else
           <label tabIndex="0" for="picture__input" type="file" class="fotoPerfil picture" style="background: rgb(219, 221, 223);">
-            <img src="/user.png" style="height: 15rem;width: 15rem;border-radius: inherit;"></img>
+            <img src="/user.png" style="height: 15rem;width: 15rem;border-radius: inherit;" title="click aqui para adicionar uma foto ao seu perfil"></img>
           </label>
           @endif
           <input type="file" id="picture__input" name="foto" onchange="this.form.submit()">
@@ -62,7 +63,7 @@
         <div class="card">
         <div class="form-control border-dark">
           <div style="margin-left: 5rem; margin-right: 5rem;" >
-            <h4 style="color: #1f2029;">Olá {{$usuario->name}}</h4>
+            <div style="display: flex;width: 75%;justify-content: space-between;"><h4 style="color: #1f2029;" id="saudacao"> </h4><h4 style="color: #1f2029;">  {{$usuario->name}}</4></div>
             <p style="color: #1f2029;">Email: {{$usuario->email}}</p>
             <p style="color: #1f2029;">Quantidade de Listas ativas: {{$lAbertas}}</p>
             <p style="color: #1f2029;">Quantidade de Listas finalizadas: {{$lFinalizadas}}</p>
@@ -72,5 +73,11 @@
         </div>
       </div>
   </div>
+  <script src="/jquery.js"></script>
+    <script>
+        window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')
+    </script>
+    <script src="/script.js"></script>
+    <script src="/saudacao.js"></script>
 </body>
 @endsection

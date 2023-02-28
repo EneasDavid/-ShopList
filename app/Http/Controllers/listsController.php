@@ -39,41 +39,127 @@ class listsController extends Controller
     }
     public function resumoFinancas()
     {
-        /* Necessito arruamr a opção de "no limite" da lista*/
         $usuario=auth()->user();
+        $listasParticipa=$usuario->listAsParticipant;
         $busca=request('search'); 
         if($busca){
-            $list=Lists::where('idCriador',$usuario->id)->whereMonth('created_at', $busca)->get();
+            $list=Lists::where('idCriador',$usuario->id)->whereMonth('created_at', $busca)->get()->toArray();
             $valorTotal=Lists::whereMonth('created_at', $busca)->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+            foreach($listasParticipa as $participacoes){
+                if($participacoes->created_at->format('m')==$busca){
+                    array_push($list,$participacoes);
+                    $vt=['valorTotal'=>$participacoes->valorTotal];
+                    array_push($valorTotal,$vt);
+                }
+            }
         }else{
-            $list=Lists::where('idCriador',$usuario->id)->whereMonth('created_at', date('m'))->get();
+            $list=Lists::where('idCriador',$usuario->id)->whereMonth('created_at', date('m'))->get()->toArray();
             $valorTotal=Lists::whereMonth('created_at', date('m'))->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+            foreach($listasParticipa as $participacoes){
+                if($participacoes->created_at->format('m')==date('m')){
+                    array_push($list,$participacoes);
+                    $vt=['valorTotal'=>$participacoes->valorTotal];
+                    array_push($valorTotal,$vt);
+                }
+            }
         }
         $valorGastosMes=0;
         $valorGastosJaneiro=0;
         $valorGastosJ=Lists::whereMonth('created_at', '01')->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        foreach($listasParticipa as $participacoes){
+            if($participacoes->created_at->format('m')=='01'){
+                $vt=['valorTotal'=>$participacoes->valorTotal];
+                array_push($valorGastosJ,$vt);
+            }
+        }
         $valorGastosFevereiro=0;
         $valorGastosF=Lists::whereMonth('created_at', '02')->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        foreach($listasParticipa as $participacoes){
+            if($participacoes->created_at->format('m')=='02'){
+                $vt=['valorTotal'=>$participacoes->valorTotal];
+                array_push($valorGastosF,$vt);
+            }
+        }
         $valorGastosMarco=0;
         $valorGastosM=Lists::whereMonth('created_at', '03')->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        foreach($listasParticipa as $participacoes){
+            if($participacoes->created_at->format('m')=='03'){
+                $vt=['valorTotal'=>$participacoes->valorTotal];
+                array_push($valorGastosM,$vt);
+            }
+        }
         $valorGastosAbril=0;
         $valorGastosAb=Lists::whereMonth('created_at', '04')->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        foreach($listasParticipa as $participacoes){
+            if($participacoes->created_at->format('m')=='04'){
+                $vt=['valorTotal'=>$participacoes->valorTotal];
+                array_push($valorGastosAb,$vt);
+            }
+        }
         $valorGastosMaio=0;
         $valorGastosMa=Lists::whereMonth('created_at', '05')->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        foreach($listasParticipa as $participacoes){
+            if($participacoes->created_at->format('m')=='05'){
+                $vt=['valorTotal'=>$participacoes->valorTotal];
+                array_push($valorGastosMa,$vt);
+            }
+        }
         $valorGastosJunho=0;
         $valorGastosJu=Lists::whereMonth('created_at', '06')->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        foreach($listasParticipa as $participacoes){
+            if($participacoes->created_at->format('m')=='06'){
+                $vt=['valorTotal'=>$participacoes->valorTotal];
+                array_push($valorGastosJu,$vt);
+            }
+        }
         $valorGastosJulho=0;
         $valorGastosJl=Lists::whereMonth('created_at', '07')->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        foreach($listasParticipa as $participacoes){
+            if($participacoes->created_at->format('m')=='07'){
+                $vt=['valorTotal'=>$participacoes->valorTotal];
+                array_push($valorGastosJl,$vt);
+            }
+        }
         $valorGastosAgosto=0;
         $valorGastosA=Lists::whereMonth('created_at', '08')->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        foreach($listasParticipa as $participacoes){
+            if($participacoes->created_at->format('m')=='08'){
+                $vt=['valorTotal'=>$participacoes->valorTotal];
+                array_push($valorGastosA,$vt);
+            }
+        }
         $valorGastosSetembro=0;
         $valorGastosS=Lists::whereMonth('created_at', '09')->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        foreach($listasParticipa as $participacoes){
+            if($participacoes->created_at->format('m')=='09'){
+                $vt=['valorTotal'=>$participacoes->valorTotal];
+                array_push($valorGastosS,$vt);
+            }
+        }
         $valorGastosOutubro=0;
         $valorGastosO=Lists::whereMonth('created_at', '10')->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        foreach($listasParticipa as $participacoes){
+            if($participacoes->created_at->format('m')=='10'){
+                $vt=['valorTotal'=>$participacoes->valorTotal];
+                array_push($valorGastosO,$vt);
+            }
+        }
         $valorGastosNovembro=0;
         $valorGastosN=Lists::whereMonth('created_at', '11')->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        foreach($listasParticipa as $participacoes){
+            if($participacoes->created_at->format('m')=='11'){
+                $vt=['valorTotal'=>$participacoes->valorTotal];
+                array_push($valorGastosN,$vt);
+            }
+        }
         $valorGastosDezembro=0;
         $valorGastosD=Lists::whereMonth('created_at', '12')->where('idCriador',$usuario->id)->get('valorTotal')->toArray();
+        foreach($listasParticipa as $participacoes){
+            if($participacoes->created_at->format('m')=='12'){
+                $vt=['valorTotal'=>$participacoes->valorTotal];
+                array_push($valorGastosD,$vt);
+            }
+        }
         foreach($valorTotal as $li){
             foreach($li as $l){
                 $valorGastosMes+=$l;
@@ -87,12 +173,12 @@ class listsController extends Controller
         foreach($valorGastosF as $li){
             foreach($li as $l){
                 $valorGastosFevereiro+=$l;
-            }
+         }    
         }    
         foreach($valorGastosM as $li){
             foreach($li as $l){
-                $valorGastosMarco+=$l;
-            }
+            $valorGastosMarco+=$l;
+         }
         }
         foreach($valorGastosAb as $li){
             foreach($li as $l){
@@ -105,9 +191,7 @@ class listsController extends Controller
             }
         }
         foreach($valorGastosJu as $li){
-            foreach($li as $l){
-                $valorGastosJunho+=$l;
-            }
+                $valorGastosJunho+=$li;
         }
         foreach($valorGastosJl as $li){
             foreach($li as $l){
@@ -121,7 +205,7 @@ class listsController extends Controller
         }
         foreach($valorGastosS as $li){
             foreach($li as $l){
-                $valorGastosSetembro+=$l;
+                $valorGastosSetembro+=$li;
             }
         }
         foreach($valorGastosO as $li){
@@ -175,23 +259,26 @@ class listsController extends Controller
             $novaLista->limiteLista =str_replace(",",".",$request->limiteLista);
         }
         $novaLista->save();
-        return redirect('/index');
+        return redirect('/home');
     }
     public function editarLista($id)
     {
         return view('new_list',['lista'=>Lists::findOrFail($id)]);
     }
-    public function editarListaForms(Request $request){
+    public function editarListaForms(Request $request)
+    {
         $this->validate($request,[
             'nome'=>'required',
             'categoria'=>'required'
             ],[
                 'required' => 'Os campos marcados com * são obrigartorios!',
         ]);
-        Lists::findOrFail($_GET['id'])->update([
+        $listaEdit=Lists::findOrFail($_GET['id']);
+        $listaEdit->update([
             'nome'=>$request->nome,
             'categoria'=>$request->categoria,
-            'limiteLista'=>str_replace(",",".",$request->limiteLista)
+            'limiteLista'=>$request->limiteLista,
+            'porcetagemLimite'=>($listaEdit->valorTotal/str_replace(",",".",$request->limiteLista))*100
         ]);
         return redirect('/list/'.$_GET['id']);
     }
@@ -202,6 +289,41 @@ class listsController extends Controller
         $participantes=$lista->users;
         $items=items::where('listaPertence',$idLista)->get();
         return view('list',["user"=>$user,"lista"=>$lista,"items"=>$items,'participantes'=>$participantes]);
+    }    
+    public function ListaMudanca($idLista)
+    {
+        $user=auth()->user()->id;
+        $lista=Lists::findOrFail($idLista);
+        $participantes=$lista->users;
+        $itemE=items::findOrFail($_GET['item']);
+        $items=items::where('listaPertence',$idLista)->get();
+        return view('listChange',['itemE'=>$itemE,"user"=>$user,"lista"=>$lista,"items"=>$items,'participantes'=>$participantes]);
+    }
+    public function listaItemMudanca(Request $request)
+    {
+        $itemMudar=items::findOrFail($_GET['item']);
+        $listaCerta=Lists::findOrFail($_GET['l']);
+        $valor=($listaCerta->valorTotal)-($itemMudar->preco*$itemMudar->quantidade)+($request->quantidade*(str_replace(",",".",$request->preco)));
+        $itemMudar->update([
+            'nomeProduto'=> $request->nome,
+            'preco' => str_replace(",",".",$request->preco),
+            'quantidade' => $request->quantidade,
+            'descricao' => $request->descricao
+        ]);
+        if(isset($listaCerta->limiteLista))
+        {
+            $porcentagem=($valor/$listaCerta->limiteLista)*100;
+            $listaCerta->update([
+                'valorTotal'=>$valor,
+                'porcetagemLimite'=>$porcentagem,
+            ]);
+        }else
+        {
+            $listaCerta->update([
+                'valorTotal'=>$valor,
+            ]);
+        }
+        return redirect('/list/'.$_GET['l'].'');
     }
     public function criarItemsForms(Request $request)
     {
@@ -210,6 +332,7 @@ class listsController extends Controller
         $novoItem->preco = str_replace(",",".",$request->preco);
         $novoItem->quantidade = $request->quantidade;
         $novoItem->descricao = $request->descricao;
+        $novoItem->idResponsavelItem = auth()->user()->id;
         $novoItem->responsavelItem = auth()->user()->name;
         $novoItem->listaPertence = $request->idLista;
         $novoItem->save();
@@ -239,7 +362,7 @@ class listsController extends Controller
         Lists::findOrFail($_GET['id'])->update([
             'finaizada'=>1,
         ]);
-        return redirect('/index');
+        return redirect('/home');
     }
     public function listasFinalizadas(Request $request)
     {
@@ -357,7 +480,8 @@ class listsController extends Controller
         }
          return back();
     }
-    public function participarLista(Request $request){
+    public function participarLista(Request $request)
+    {
         $id=$request->id;
         $list=Lists::where('id',$id)->first();
         if(!isset($list)){
@@ -365,18 +489,20 @@ class listsController extends Controller
         }
         $user=auth()->user();
         if($user->id!=$list->idCriador){
+            if($list->finaizada){
+                return back()->with('danger','Lista não encontrada, tente outro convite');
+            }
             $user->listAsParticipant()->attach($id);
             $user->update([
                 'lParticipando'=>$user->lParticipando+1,
             ]);
-            return redirect('/index');
-        }elseif($list->finalizado){
-            return back()->with('danger','Lista não encontrada, tente outro convite');
+            return redirect('/home');
         }else{
             return back()->with('danger','Você é o criar desta lista');
         }
     }
-    public function removerParticipacao(Request $request){
+    public function removerParticipacao(Request $request)
+    {
         $id=$request->id;
         $list=Lists::findOrFail($id);
         $user=user::findOrFail($request->idUsuario);

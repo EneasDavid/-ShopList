@@ -3,6 +3,8 @@ const tabelaSelect = document.querySelectorAll('#td')[3];
 const salvarTagPopUp=document.querySelector("[popUp-cadastrar-tag]");
 const integrantesTagPopUp=document.querySelector("[popUp-integrantes-tag]");
 
+const item=document.querySelector("#item");
+
 function chamaPopUpIntegrantes(){
   integrantesTagPopUp.classList.add("aparecer");
 }

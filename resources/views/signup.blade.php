@@ -31,7 +31,11 @@
 											@endif
 											@if (session('danger'))
 												<div class="alert alert-danger">
-												{{ session('danger') }}
+													{{ session('danger') }}
+												</div>
+											@elseif (session('success'))
+											<div class="alert alert-success">
+												{{ session('success') }}
 											</div>
 											@endif
 											<form action="{{route('login.forms')}}" method="POST">

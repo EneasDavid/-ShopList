@@ -13,9 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Lists;
-use App\Models\items;
-
-
+use Illuminate\Support\Facades\Mail;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
@@ -45,6 +43,9 @@ class Controller extends BaseController
     //Login
         public function login()
         {
+            if(auth()->user()){
+                return back();
+            }
             return view('signup');
         }
         public function loginForms(Request $request)
@@ -61,7 +62,7 @@ class Controller extends BaseController
             $usuario=User::where('email',$request->email)->first(); 
             if($usuario && Hash::check($request->password,$usuario->password)){
                 Auth::loginUsingId($usuario->id);
-                return redirect('/index');
+                return redirect('/home');
             }else{
                 return redirect()->back()->with('danger','E-mail ou senha invalida!');
             }
@@ -83,14 +84,27 @@ class Controller extends BaseController
             if(!$usuario){
                 return back()->with('danger','Email não cadastrado, tente outro!');
             }
-            return redirect('/sendEmail/send',['destinatario'=>$usuario]);
-        }
-        public function enviarEmailRedSenha ()
-        {
+            //return new \App\Mail\SendMail($usuario);
+            Mail::send(new \App\Mail\SendMail($usuario));
             return redirect('/password_reset')->with('success','Enviamos um email com as instruções para redefinir sua senha');
         }
-        public function esqueceuSenhaForms () {
-            
+        public function verificaIDPassword($id) 
+        {
+            $user=user::all();
+            foreach($user as $destinatario){
+                if(Hash::check($destinatario->id,$id)){
+                    return view('password_resetPassword',['entidade'=>$destinatario]);
+                }
+            }
+            return back()->with('danger','usuario não encontrado');
+           }
+
+        public function esqueceuSenhaForms (Request $request) 
+        {
+            user::findOrFail($request->id)->update([
+                'password'=>Hash::make($request->senha),
+            ]);     
+            return redirect('/')->with('success','Senha alterada com sucesso');
         }
     //after login
         public function index(Request $request)

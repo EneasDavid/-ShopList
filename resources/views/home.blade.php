@@ -7,7 +7,7 @@
 <header class="header">
 <nav class="navbar navbar-expand-lg header-nav fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/index">ShopList</a>
+  <a class="navbar-brand" href="/home">ShopList</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span></span>
       <span></span>
@@ -33,9 +33,11 @@
           </ul>
         </li>
       </ul>
+      @if (!empty($suasListas->toArray()) or !empty($listasParticipa))
       <ul class="navbar-nav ms-auto">
       <a href="new_list" class="btn">Nova Lista</a>
       </ul>
+      @endif
     </div>
   </div>
 </nav>       
@@ -43,15 +45,16 @@
 @if (empty($suasListas->toArray()) and empty($listasParticipa))
 <body>
 <div class="col-md-12 centered mx-auto container-perfil" style="width: max-content;">
-<div style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;">
+<div style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;flex-direction: column;">
      <h1>Nenhuma lista disponivel.</h1>
+     <a href="new_list" class="btn">Criar uma lista</a>
   </div>
 </div>
 </body>
 @else
 <div class="container">
       <hr class="mt-3">
-      <div class="row">
+      <div class="row" style="justify-content: normal !important;">
         <div class="col-12 col-md-5">
           <form class="justify-content-center justify-content-md-start mb-3 mb-md-0">
             <div class="input-group input-group-sm">
@@ -75,18 +78,18 @@
         </div>
       </div>
       <hr class="mt-3">
-      <div class="row">
+      <div class="row" style="justify-content: normal !important;">
         @foreach($suasListas as $listas)
         <div class="col-md-4 col-xl-3 col-lg-6">
-          <div class="row ">
-            <a href='/list/{{$listas->id}}'>
+          <div class="row" style="justify-content: normal !important;">
+            <a href='/list/{{$listas->id}}' title="{{$listas->nome}}">
               <div class="col-xl-12 col-lg-12">
                 <div class="card l-bg-orange-dark">
                     <div class="card-statistic-3 p-4">
                         <div class="card-icon card-icon-large"><i class="fas fa-shopping-cart"></i></div>
                         <div class="mb-4">
-                            <h5 class="card-title mb-0">{{$listas->nome}}</h5>
-                            <p class="card-text truncate-3l">{{$listas->categoria}}</p>
+                            <h5 class="card-title truncate-1l mb-0">{{$listas->nome}}</h5>
+                            <p class="card-text truncate-1l">{{$listas->categoria}}</p>
                         </div>
                         <div class="row align-items-center mb-2 d-flex">
                             <div class="col-8">
@@ -121,13 +124,13 @@
         @foreach($listasParticipa as $listas)
         <div class="col-md-4 col-xl-3 col-lg-6">
           <div class="row ">
-            <a href='/list/{{$listas->id}}'>
+            <a href='/list/{{$listas->id}}' title="{{$listas->nome}}">
               <div class="col-xl-12 col-lg-12">
                 <div class="card l-bg-orange-dark">
                     <div class="card-statistic-3 p-4">
                         <div class="card-icon card-icon-large"><i class="fas fa-shopping-cart"></i></div>
                         <div class="mb-4">
-                            <h5 class="card-title mb-0">{{$listas->nome}}</h5>
+                            <h5 class="card-title truncate-1l mb-0">{{$listas->nome}}</h5>
                             <p class="card-text truncate-3l">{{$listas->categoria}}</p>
                         </div>
                         <div class="row align-items-center mb-2 d-flex">

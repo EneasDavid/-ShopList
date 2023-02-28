@@ -5,9 +5,10 @@
 
 @section('main')
 <header class="header">
-<nav class="navbar navbar-expand-lg header-nav fixed-top">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/index">ShopList</a>
+  <nav class="navbar navbar-expand-lg header-nav fixed-top">
+    <div class="container-fluid">
+    @auth
+    <a class="navbar-brand" href="/home">ShopList</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span></span>
       <span></span>
@@ -22,7 +23,7 @@
           <a class="nav-link" href="/report">Relatório</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Mais
           </a>
           <ul class="dropdown-menu">
@@ -32,16 +33,21 @@
             <li><a class="dropdown-item" href="/logout">Sair</a></li>
           </ul>
         </li>
+        @endauth
+        @guest
+        <a class="navbar-brand" href="/">ShopList</a>
+        @endguest
       </ul>
     </div>
   </div>
 </nav>       
 </header>
 <body>
+<a href="/home" style="padding-left: calc(var(--bs-gutter-x) * 1.1);"><img style="height: 30px;" src="previous.png" alt="back to home page"></a>
 <div class="col-md-12 centered mx-auto container-perfil" style="width: max-content;">
 <div style="display: flex;background: white;flex-direction: row;justify-content: space-between;align-items: center;border-radius: 25px;box-shadow: 4px 8px 10px 2px #32333e;">
         <div class="box" style="width:200px !important;height:auto !important;">
-        <h4 style="color: #1f2029;">Nos ajude a manter esse site atualizado, nos pague um cafezinho!</h4>
+        <h4 style="color: #1f2029;">Nos ajude a continuar melhorando esse projeto, paga um cafezinho pra gente!</h4>
         </div>
         <div class="box" style="height:auto !important;">
           <label tabIndex="0" for="picture__input" type="file" class="fotoPerfil picture" style="display: flex;flex-direction: column;align-items: center;padding:0px!important">

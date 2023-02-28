@@ -7,7 +7,7 @@
 <header class="header">
 <nav class="navbar navbar-expand-lg header-nav fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/index">ShopList</a>
+  <a class="navbar-brand" href="/home">ShopList</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span></span>
       <span></span>
@@ -22,7 +22,7 @@
           <a class="nav-link" href="/report">Relatório</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Mais
           </a>
           <ul class="dropdown-menu">
@@ -73,10 +73,10 @@
         </div>
       </div>
       <hr class="mt-3">
-      <div class="row">
+      <div class="row" style="justify-content: normal !important;">
       @foreach($suasListas as $listas)
         <div class="col-md-4 col-xl-3 col-lg-6">
-          <div class="row ">
+          <div class="row " style="justify-content: normal !important;">
             <a href='/list/{{$listas->id}}'>
               <div class="col-xl-12 col-lg-12">
                 <div class="card l-bg-orange-dark">
@@ -118,7 +118,7 @@
         @endforeach
       @foreach($listasParticipa as $listas)
         <div class="col-md-4 col-xl-3 col-lg-6">
-          <div class="row ">
+          <div class="row " style="justify-content: normal !important;">
             <a href='/list/{{$listas->id}}'>
               <div class="col-xl-12 col-lg-12">
                 <div class="card l-bg-orange-dark">

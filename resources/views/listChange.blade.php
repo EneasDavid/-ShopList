@@ -5,6 +5,7 @@
 
 @section('main')
 <link href="/style.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
 
 <header class="header">
 <nav class="navbar navbar-expand-lg header-nav fixed-top">
@@ -28,7 +29,7 @@
             Mais
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="historic">Histórico</a></li>
+            <li><a class="dropdown-item" href="/historic">Histórico</a></li>
             <li><a class="dropdown-item" href="/donation">Doação</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="/logout">Sair</a></li>
@@ -45,7 +46,7 @@
 </nav>       
 </header>
 <main class="fix-fill">
-<div class="modal pagina" id="modalExemplo" tabindex="-1" role="dialog" style="margin: 0!important;" aria-labelledby="exampleModalLabel" aria-hidden="true" popUp-cadastrar-tag>
+<div class="modal pagina aparecer" id="modalExemplo" tabindex="-1" role="dialog" style="margin: 0!important;" aria-labelledby="exampleModalLabel" aria-hidden="true" popUp-cadastrar-tag>
 <div class="section">
     <div class="row full-height justify-content-center">
         <div class="col-12 text-center align-self-center py-5">
@@ -53,30 +54,29 @@
                     <div class="card-3d-wrapper">
                         <div class="card-front">
                             <div class="center-wrap">
-                                <button type="button" class="btn-close btn-close-white" aria-label="Close" data-dismiss="modal" onclick="removerPopUp()"></button>
+                                <a href="/list/{{$lista->id}}"type="button" class="btn-close btn-close-white" aria-label="Close" data-dismiss="modal"></a>
                                 <div class="section text-center">
                                     <h4 class="mb-4 pb-3">Adicionar Produto</h4>
-                                    <form class="container" action="{{route('dicionarItem')}}" method="POST">
+                                    <form class="container" action="/listItemChange?l={{$lista->id}}&item={{$itemE->id}}" method="POST">
                                     @csrf
-                                    <input type="hidden" name="idLista" value="{{$lista->id}}" >
                                     <input type="hidden" class="id" name="id">
                                         <div class="form-group">
-                                            <input type="text" name="nome" class="form-style input-home nome" placeholder="Nome do Produto" id="logname" autocomplete="off">
+                                            <input type="text" name="nome" class="form-style input-home nome" placeholder="Nome do Produto" id="logname" autocomplete="off" value='{{$itemE->nomeProduto}}'>
                                             <i class="input-icon uil uil-user"></i>
                                         </div>
                                         <div class="form-group mt-2">
-                                            <input type="number" step="0.01" name="preco" class="form-style input-home preco" placeholder="Preço do produto" id="logname" autocomplete="off">
+                                            <input type="number" step="0.01" name="preco" class="form-style input-home preco" placeholder="Preço do produto" id="logname" autocomplete="off" value='{{$itemE->preco}}'>
                                             <i class="input-icon uil uil-user"></i>
                                         </div>
                                         <div class="form-group mt-2">
-                                            <input type="number" name="quantidade" class="form-style input-home quantidade" placeholder="Quantidade do produto" id="logname" autocomplete="off">
+                                            <input type="number" name="quantidade" class="form-style input-home quantidade" placeholder="Quantidade do produto" id="logname" autocomplete="off" value='{{$itemE->quantidade}}'>
                                             <i class="input-icon uil uil-user"></i>
                                         </div>	
                                         <div class="form-group mt-2">
-                                            <input type="text" name="descricao" class="form-style input-home descricao" placeholder="Descrição do produto" id="logname" autocomplete="off">
+                                            <input type="text" name="descricao" class="form-style input-home descricao" placeholder="Descrição do produto" id="logname" autocomplete="off" value='{{$itemE->descricao}}'>
                                             <i class="input-icon uil uil-user"></i>
                                         </div>	
-                                        <button class="btn" type="submit" onclick="myFunction(this);this.form.submit()">Salvar</button>
+                                        <button class="btn" type="submit" onclick="myFunction(this);this.form.submit()">Alterar</button>
                                     </form>
                                 </div>
                            </div>
@@ -92,69 +92,6 @@
   <div style="display: inline-flex;flex-direction: row;justify-content: space-between;align-items: baseline;width: inherit;">
     <h1  class="truncate-1l" style="width: 40%" title="{{$lista->nome}}">{{$lista->nome}}</h1>
     <button type="button" class="btn" data-target="#modalExemplo" data-salvar onclick="chamaPopUpIntegrantes()">Integrantes</button>
-    {{--Código listagem de integrantes--}}
-    <div class="modal pagina" id="modalExemplo" tabindex="-1" role="dialog" style="margin: 0!important;" aria-labelledby="exampleModalLabel" aria-hidden="true" popUp-integrantes-tag>
-    <div class="section">
-    <div class="row full-height justify-content-center">
-        <div class="col-12 text-center align-self-center py-5">
-                <div class="card-3d-wrap mx-auto">
-                    <div class="card-3d-wrapper">
-                        <div class="card-front">
-                            <div class="center-wrap">
-                                <button type="button" class="btn-close btn-close-white" aria-label="Close" data-dismiss="modal" onclick="removerPopUpIntegrantes()"></button>
-                                <div class="section text-center">
-                                    <h4>Criador da lista</h4>
-                                    <h2 class="mb-4"><strong>{{$lista->Criador}}</strong></h2>
-                                    @if($lista->idCriador==$user)
-                                      @if(!$lista->finaizada)
-                                        <h4 class="mb-4">Cod. Convite: <strong>{{$lista->id}}</strong></h4>
-                                      @endif
-                                    @endif
-                                    @if(count($participantes)>0)
-                                      <h4>Participantes</h4>
-                                      @foreach ($participantes as $participante)
-                                        @if($lista->finaizada==0)  
-                                            <div style="display: flex;flex-direction: row;justify-content: space-evenly;align-items: center;">
-                                        @endif
-                                        @php
-                                        $nome=explode(" ", $participante->name);
-                                        echo '<h2>'; 
-                                        echo $nome[0];
-                                        echo '</h2>';
-                                        @endphp
-                                        @if($lista->idCriador==$user or $participante->id==$user)
-                                          @if($lista->finaizada==0) 
-                                            <form action="/removerParticipacao" method="post">
-                                                @csrf
-                                                @method('DELETE')
-                                                <input type="hidden" name="idUsuario" value="{{$participante->id}}">
-                                                <input type="hidden" name='id' value="{{$lista->id}}">
-                                                <button type="submit" class="botaoLista btn-outline-danger btn-sm" onclick="myFunction(this);this.form.submit()">
-                                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                                                  </svg>
-                                                </button>
-                                            </form>
-                                          @endif
-                                          @else
-                                          <div></div>  
-                                        @endif
-                                      @if($lista->finaizada==0) 
-                                        </div>
-                                      @endif
-                                      @endforeach
-                                      @endif
-                                </div>
-                           </div>
-                       </div>  
-                   </div>
-               </div>
-        </div>
-     </div>
-  </div>
-</div>
-    {{--Código listagem de integrantes--}}
     <div style="display: inline-flex;flex-direction: row;justify-content: space-around;align-items: baseline;width: 40%;justify-content: flex-end;">  
     @if(!isset($lista->limiteLista))
       <p style="color:#54a666;margin-right: 1rem;">R$ {{str_replace(".",",",$lista->valorTotal)}}</p>
@@ -204,12 +141,8 @@
       <li class="list-group-item py-3">
         <div class="row g-3" style="justify-content: space-between;">
           <div class="col-8 col-md-9 col-lg-7 col-xl-8 text-left align-self-center">
-          <div>
-          @if($item->idResponsavelItem==$user or $lista->idCriador==$user)
-            <a href="/listChange/{{$lista->id}}?item={{$item->id}}"><h4 style="cursor:pointer"><b>{{$item->nomeProduto}}</b></h4></a>
-          @else
+          <div> 
             <h4><b>{{$item->nomeProduto}}</b></h4>
-          @endif
             <small>Adicionado por: <b>{{$item->responsavelItem}}</b></small>
           </div>
           <h4>
@@ -264,7 +197,7 @@
           @endif
 
           @if($lista->finaizada==0)
-            <a href="/home" class="btn btn-outline-success btn-lg">
+            <a href="/index" class="btn btn-outline-success btn-lg">
               Continuar Depois                           
             </a>
             @if($lista->idCriador==$user and $lista->quantidadeItem>0)

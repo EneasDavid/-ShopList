@@ -2,67 +2,41 @@
 
 namespace App\Mail;
 
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Hash;
 
 class SendMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $data;
+    private $user;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct(User $user)
     {
-        $this->data=$data;
+        $this->user=$user;
+    }
+    /**
+    *Build the mensage
+    *
+    * @return $this
+    */
+    public function build(){
+        $this->subject(subject:'Redefirnir senha');        
+        $this->to($this->user->email,$this->user->name); 
+        $id=Hash::make($this->user->id);
+        while(strstr($id,'/',true)){
+            $id=Hash::make($this->user->id);
+        }
+        return $this->view('sendMail',['destinatario'=>$this->user,'idUser'=>$id]);     
     }
 
-    /**
-     * Get the message envelope.
-     *
-     * @return \Illuminate\Mail\Mailables\Envelope
-     */
-    public function envelope()
-    {
-        return new Envelope(
-            subject: 'Send Mail',
-        );
-    }
-
-    /**
-     * Get the message content definition.
-     *
-     * @return \Illuminate\Mail\Mailables\Content
-     */
-    public function content()
-    {
-        return new Content(
-            view: 'view.name',
-        );
-    }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array
-     */
-    public function attachments()
-    {
-        return [];
-    }
-    /**
-     * Build the message
-     * 
-     * @return $this
-     */
-    public function build()
-    {
-        return $this->form('david00eneas@gmail.com')->subject('Redefinir sua senha')->view('dynamic_email_template.blade')->with('data',$this->data);
-    }
 }
